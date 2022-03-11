@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name">Fleet Tracker</string>
+
+    <!--General-->
+    <string name="Submit_Button_strRc">Submit</string>
+    <string name="signoutInfo">Do you want to Sign Out ?</string>
+    <string name="signoutTitle">Sign Out</string>
+
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="Lg_errorInfo_Label_strRc">All the fields are mandatory.</string>
+    <string name="SubmissionPg_EmiratesID_EditText_Hint">Emirates ID</string>
+    <string name="DistributionPg_Comments_EditText_Hint">Please Write your comments here</string>
+    <string name="DistributionPg_English_EditText_Txt">English</string>
+    <string name="DistributionPg_Arabic_EditText_Txt">Arabic</string>
+
+    <string name="Lg_UserName_Textbox_strRc">User ID</string>
+
+    <string name="Lg_Password_Textbox_strRc">Password</string>
+    <string name="Lg_Login_Button_strRc">Login</string>
+    <string name="Lg_forgotPassword_Label_strRc">Forgot password?</string>
+    <string name="Lg_remember_Checkbox_strRc">Remember me</string>
+    <string name="Lg_createAccount_Label_strRc">Create an account</string>
+    <string name="user_to_fleet">User To Fleet</string>
+
+
+    <string name="DistributionPg_Parts_TextView_Txt">Spare Tire Handle</string>
+
+
+    <string name="content_description">contentDescription</string>
+    <string name="car">CAR</string>
+    <string name="movement_checklist">Movement CheckList</string>
+    <string name="Btn_Review">Review</string>
+
+    <string name="Btn_SelectPicture">Select Picture</string>
+    <string name="Btn_TakePhoto">Take Photo</string>
+    <string name="Btn_Continue">Continue</string>
+    <string name="Img_Distribution">Distribution</string>
+
+    <string name="driver_identification">Driver Identification</string>
+    <string name="SubmissionPg_VehicleInfo_TextView_Txt">Vehicle Information</string>
+
+    <string name="HandOrTakeOverPg_PlateNo_TextView_Txt">Plate No</string>
+    <string name="HandOrTakeOverPg_Emirates_TextView_Txt">Emirates</string>
+    <string name="HandOrTakeOverPg_PlateCode_TextView_Txt">Plate Code</string>
+    <string name="HandOrTakeOverPg_KM_TextView_Txt">KM</string>
+    <string name="HandOrTakeOverPg_FuelTank_TextView_Txt">Fuel Tank</string>
+    <string name="HandOrTakeOverPg_Date_TextView_Txt">Date</string>
+    <string name="HandOrTakeOverPg_Time_TextView_Txt">Time</string>
+    <string name="HandOrTakeOverPg_IDNo_TextView_Txt">ID Number</string>
+    <string name="HandOrTakeOverPg_DriverName_TextView_Txt">Driver\'s\nName</string>
+    <string name="HandOrTakeOverPg_DriverName_TextView_Hint">Driver\'s Name</string>
+    <string name="HandOrTakeOverPg_ContactNo_TextView_Txt">Contact\nNumber</string>
+    <string name="HandOrTakeOverPg_ContactNo_TextView_Hint">Contact Number</string>
+
+
+
+
+    <string name="picturewarn">Each Picture size should not exceed more than 1 MB</string>
+    <string name="emiratesid">EmiratesID</string>
+    <string name="or">OR</string>
+    <string name="SubmissionPg_EmiratesID_BackSide_TextView_Txt">Back Side</string>
+    <string name="SubmissionPg_DrivingLicense_TextView_Txt">Driving\nLicense</string>
+    <string name="front_side">Front Side</string>
+    <string name="back_side2">Back Side</string>
+    <string name="SubmissionPg_MyPicture_TextView_Txt">My Picture</string>
+    <string name="vehicle_information">Vehicle Information</string>
+    <string name="maximum_8_photos_are_allowed">Maximum 8 photos are allowed</string>
+    <string name="SubmissionPg_VehiclePicture_TextView_Txt">Vehicle\nPictures</string>
+    <string name="SubmissionPg_DriverSignature_TextView_Txt">Driver\'s\nSignature</string>
+    <string name="SubmissionPg_DRCSignature_TextView_Txt">DRC\nSignature</string>
+    <string name="SubmissionPg_EmiratesID_FrontSide_TextView_Txt">Front Side</string>
+    <string name="SubmissionPg_BackSide_TextView_Txt">Back Side</string>
+    <string name="DistributionPg_SelectPartsInfo_TextView_Txt">Select the below Vehicle parts (Scroll to select the options)</string>
+    <string name="SubmissionPg_LicenseInfo_TextView_Txt">Please Select Distribution License</string>
+    <string name="SubmissionPg_CommentsInfo_TextView_Txt">Comments about the fault</string>
+
+</resources>

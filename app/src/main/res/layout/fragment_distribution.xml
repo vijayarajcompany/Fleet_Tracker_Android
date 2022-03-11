@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+<variable
+    name="langStatus"
+    type="Integer"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.DistributionFragment">
+
+        <ImageView
+            android:id="@+id/DistributionPg_VehicleImage_ImageView"
+            android:layout_width="0dp"
+            android:layout_height="320dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/Img_Distribution"
+            android:src="@color/design_default_color_on_primary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/van_large" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DistributionPg_VehicleImage_ImageView"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/DistributionPg_Container_constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!-- Label -->
+                <TextView
+                    android:id="@+id/DistributionPg_selectVehiclePartsInfo_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingStart="5dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/DistributionPg_SelectPartsInfo_TextView_Txt"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPepsi_TextForeground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/DistributionPg_selectLicenseInfo_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingStart="5dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/SubmissionPg_LicenseInfo_TextView_Txt"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPepsi_TextForeground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="@+id/DistributionPg_selectVehiclePartsInfo_TextView"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_VehicleParts_RecyclerView" />
+
+                <TextView
+                    android:id="@+id/DistributionPg_CommentsInfo_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingStart="5dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/SubmissionPg_CommentsInfo_TextView_Txt"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPepsi_TextForeground"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_Distribution_RecyclerView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/DistributionPg_VehicleParts_RecyclerView"
+                    android:layout_width="400dp"
+                    android:layout_height="300dp"
+                    android:layout_marginStart="50dp"
+                    android:background="@color/colorDate"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_selectVehiclePartsInfo_TextView"
+                    app:spanCount="10"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/recycler_row_vehicle_parts" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/DistributionPg_Distribution_RecyclerView"
+                    android:layout_width="400dp"
+                    android:layout_height="300dp"
+                    android:layout_marginStart="48dp"
+                    android:background="@color/colorDate"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_selectLicenseInfo_TextView"
+                    app:spanCount="10"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/recycler_row_license" />
+
+                <EditText
+                    android:textDirection="@{Integer.valueOf(langStatus)}"
+                    android:textLocale=""
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollHorizontally="false"
+                    android:scrollbarThumbVertical="@color/white"
+                    android:fadeScrollbars="false"
+                    android:scrollbars="vertical"
+                    android:id="@+id/DistributionPg_Comments_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="50dp"
+                    android:background="@drawable/grey_border"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="top|start"
+                    android:hint="@string/DistributionPg_Comments_EditText_Hint"
+                    android:inputType="textMultiLine"
+                    android:lines="6"
+                    android:maxLength="3000"
+                    android:padding="20dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_CommentsInfo_TextView"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+
+                <LinearLayout
+                    android:id="@+id/SubmissionPg_Language_Button_LinearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+
+                    app:layout_constraintEnd_toEndOf="@+id/DistributionPg_Comments_EditText"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_Distribution_RecyclerView">
+
+                    <Button
+                        android:id="@+id/DistributionPg_English_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="6dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/DistributionPg_English_EditText_Txt"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/DistributionPg_Arabic_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="1dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/DistributionPg_Arabic_EditText_Txt"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/SubmissionPg_SubmitButton_LinearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="200dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DistributionPg_Comments_EditText">
+
+
+                    <Button
+                        android:id="@+id/DistributionPg_Review_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_Review"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/DistributionPg_Continue_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_Continue"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+
+
+
+
+
+

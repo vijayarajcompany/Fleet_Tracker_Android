@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorTransparent1"
+    android:id="@+id/HandOrTakeOverPg_Review_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="false"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/dialog_bg"
+        android:foregroundGravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/SignCancel_button"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:layout_gravity="right"
+                android:background="@drawable/closeicon"
+                android:fontFamily="@font/lato_semibold"
+                android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/HandOrTakeOverPg_Review_innercontainer1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/HandOrTakeOverPg_Review_Heading_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="Heading"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPepsi_ButtonBackground"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TableLayout
+                android:stretchColumns="*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_Review_innercontainer1">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:layout_column="0"
+                        android:id="@+id/HandOrTakeOverPg_Review_VehicleInfo_TextView1"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_VehicleInfo_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_PlateNo_TextView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_PlateNo_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_PlateNo_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="PlateNo"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_Emirates_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_Emirates_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_Emirates_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="Emirates"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_PlateCode_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_PlateCode_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_PlateCode_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="PlateCode"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+
+
+                </TableRow>
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    &lt;!&ndash; Label &ndash;&gt;-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/HandOrTakeOverPg_Review__KM_TextView1"-->
+<!--                        android:layout_width="200dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:fontFamily="@font/lato_regular"-->
+<!--                        android:paddingStart="25dp"-->
+<!--                        android:paddingTop="3dp"-->
+<!--                        android:paddingEnd="5dp"-->
+<!--                        android:text="@string/HandOrTakeOverPg_KM_TextView_Txt"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textColor="@color/colorPepsi_TextForeground"-->
+<!--                        android:textSize="20sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />-->
+<!--                    &lt;!&ndash; Label &ndash;&gt;-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/HandOrTakeOverPg_Review_KM_TextView2"-->
+<!--                        android:layout_width="400dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:fontFamily="@font/lato_regular"-->
+<!--                        android:maxLines="5"-->
+<!--                        android:paddingStart="25dp"-->
+<!--                        android:paddingTop="3dp"-->
+<!--                        android:paddingEnd="5dp"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textColor="@color/colorPepsi_TextForeground"-->
+<!--                        android:textSize="20sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/HandOrTakeOverPg_Review_PlateNo_TextView2"-->
+<!--                        android:layout_width="400dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:fontFamily="@font/lato_regular"-->
+<!--                        android:maxLines="5"-->
+<!--                        android:paddingStart="25dp"-->
+<!--                        android:paddingTop="3dp"-->
+<!--                        android:paddingEnd="5dp"-->
+<!--                        android:text=" Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textColor="@color/colorPepsi_TextForeground"-->
+<!--                        android:textSize="20sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />-->
+<!--                </TableRow>-->
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_KM_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_KM_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_KM_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="KM"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_FuelTank_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_FuelTank_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_FuelTank_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="FuelTank"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_Date_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_Date_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_Date_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="Date"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_Time_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_Time_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_Time_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="Time"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandorTakeOverPg_DriverInfo_Button"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="0dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/driver_identification"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_ButtonBackground"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_IDNo_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_IDNo_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_IDNo_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="Driver ID"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_DriverName_TextView1"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_DriverName_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_DriverName_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="Driver Name"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_ContactNo_TextView1"
+
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_ContactNo_TextView_Txt"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_Review_ContactNo_TextView2"
+                        android:layout_width="400dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="5"
+                        android:paddingStart="25dp"
+                        android:paddingTop="3dp"
+                        android:paddingEnd="5dp"
+                        android:text="Contact Number"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+                </TableRow>
+
+            </TableLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

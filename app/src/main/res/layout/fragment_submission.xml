@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!-- ConstraintLayout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/HandOrTakeOverPg_Container_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:context=".fragment.SubmissionFragment"
+            >
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_DriverInfo_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/driver_identification"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_ButtonBackground"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/SubmissionPg_EmiratesID_info_EditText"
+                        android:layout_width="400dp"
+                        android:layout_height="70dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/grey_border"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/SubmissionPg_EmiratesID_EditText_Hint"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_EmiratesID_info_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_DriverInfo_TextView" />
+
+                    <!--error message -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_PictureWarn1_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/lato_regular"
+                        android:lines="2"
+                        android:maxLines="2"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/picturewarn"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TxtError"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_Emirates_Picture_Button"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_EmiratesID_info_EditText"
+                        tools:visibility="visible" />
+
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_EmiratesID_info_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/emiratesid"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_EmiratesID_info_EditText" />
+
+                    <Button
+                        android:id="@+id/SubmissionPg_Emirates_Picture_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_SelectPicture"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toStartOf="@+id/SubmissionPg_OR1_TextView"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_EmiratesID_info_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_PictureWarn1_label" />
+
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_OR1_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:gravity="center|center_horizontal|center_vertical"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/or"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_Emirates_Picture_Button"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_Emirates_Picture_Button" />
+
+                    <Button
+                        android:id="@+id/SubmissionPg_Emirates_TakePhoto_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_TakePhoto"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_OR1_TextView"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_Emirates_Picture_Button" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_EmiratesID_FrontSide_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_EmiratesID_FrontSide_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_EmiratesID_info_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_Emirates_Picture_Button" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_EmiratesID_BackSide_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_EmiratesID_BackSide_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_EmiratesID_FrontSide_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_EmiratesID_Front" />
+
+                    <ImageView
+                        android:id="@+id/imgSubmission_EmiratesID_Front"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/grey_border"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_Emirates_Picture_Button"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_EmiratesID_FrontSide_TextView"
+                        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+                    <ImageView
+                        android:id="@+id/imgSubmission_EmiratesID_Back"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/grey_border"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_EmiratesID_Front"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_EmiratesID_BackSide_TextView"
+                        tools:srcCompat="@android:drawable/ic_menu_camera" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_PictureWarn2_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:lines="2"
+                        android:maxLines="2"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/picturewarn"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TxtError"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_PictureWarn1_label"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_EmiratesID_Back"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/idSubmissionPgPg_DrivingLicense_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:maxLines="2"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:singleLine="false"
+                        android:text="@string/SubmissionPg_DrivingLicense_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_PictureWarn2_label" />
+
+                    <Button
+                        android:id="@+id/SubmissionPg_Driving_Picture_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_SelectPicture"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="20sp"
+
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_Emirates_Picture_Button"
+                        app:layout_constraintTop_toTopOf="@+id/idSubmissionPgPg_DrivingLicense_TextView" />
+
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_OR2_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:gravity="center|center_horizontal|center_vertical"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/or"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_Driving_Picture_Button"
+                        app:layout_constraintTop_toTopOf="@+id/idSubmissionPgPg_DrivingLicense_TextView" />
+
+
+                    <Button
+                        android:id="@+id/SubmissionPg_Driving_TakePhoto_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_TakePhoto"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_OR2_TextView"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_Driving_Picture_Button" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_Driving_FrontSide_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_EmiratesID_FrontSide_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/idSubmissionPgPg_DrivingLicense_TextView"
+
+                        app:layout_constraintTop_toBottomOf="@+id/idSubmissionPgPg_DrivingLicense_TextView" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_Driving_BackSide_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_BackSide_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_Driving_FrontSide_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_Driving_Front"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imgSubmission_Driving_Front"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginEnd="32dp"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_EmiratesID_Back"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_Driving_FrontSide_TextView"
+                        tools:srcCompat="@android:drawable/ic_menu_camera" />
+
+                    <ImageView
+                        android:id="@+id/imgSubmission_Driving_Back"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/grey_border"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_Driving_Front"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_Driving_BackSide_TextView"
+                        tools:srcCompat="@android:drawable/ic_menu_camera" />
+
+                    <ImageView
+
+                        android:id="@+id/imgSubmission_Me"
+
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/grey_border"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_Driving_Back"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_MyPicture_Button"
+                        tools:srcCompat="@android:drawable/ic_menu_camera" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_MyPicture_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_MyPicture_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_Driving_BackSide_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_Driving_Back" />
+
+                    <Button
+                        android:id="@+id/SubmissionPg_MyPicture_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_TakePhoto"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_Driving_Picture_Button"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_MyPicture_TextView" />
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_VehicleInfo_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_VehicleInfo_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_ButtonBackground"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_Me" />
+
+                    <!--error message -->
+                    <TextView
+                        android:id="@+id/SubmissionPg_PictureWarn3_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:lines="2"
+                        android:maxLines="2"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/maximum_8_photos_are_allowed"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TxtError"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_TakeVehiclePhotos_Button"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_VehicleInfo_TextView"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_VehiclePicture_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_VehiclePicture_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_MyPicture_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_PictureWarn3_label" />
+
+                    <Button
+                        android:id="@+id/SubmissionPg_TakeVehiclePhotos_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/rectangle_background"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/Btn_TakePhoto"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_MyPicture_Button"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_VehiclePicture_TextView" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:background="@drawable/grey_border"
+                        android:id="@+id/recyclerVehiclePictureList"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_TakeVehiclePhotos_Button"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_TakeVehiclePhotos_Button"
+                        app:spanCount="10"
+                        tools:itemCount="10"
+                        tools:listitem="@layout/recycler_row_vehicle_pictures" />
+
+                    <TextView
+                        android:id="@+id/SubmissionPg_DriverSignature_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_DriverSignature_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_VehiclePicture_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/recyclerVehiclePictureList" />
+
+                    <ImageView
+                        android:id="@+id/imgSubmission_DriverSignature"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/grey_border"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/signature_placeholder"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_Me"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_DriverSignature_TextView"
+                        tools:srcCompat="@drawable/signature_placeholder" />
+
+                    <TextView
+
+                        android:id="@+id/SubmissionPg_DRCSignature_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_DRCSignature_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_DriverSignature_TextView"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_DriverSignature" />
+
+                    <ImageView
+                        android:id="@+id/imgSubmission_DRCSignature"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/grey_border"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/signature_placeholder"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_DriverSignature"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_DRCSignature_TextView"
+                        tools:srcCompat="@drawable/signature_placeholder"
+
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/SubmissionPg_SubmitButton_LinearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="32dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgSubmission_DRCSignature"
+                        app:layout_constraintTop_toBottomOf="@+id/imgSubmission_DRCSignature">
+
+
+                        <Button
+                            android:id="@+id/SubmissionPg_Review_Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="32dp"
+                            android:background="@drawable/rectangle_background"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/Btn_Review"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                            android:textSize="24sp" />
+
+                        <Button
+                            android:id="@+id/SubmissionPg_Review_Button1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/rectangle_background"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/Btn_Continue"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>

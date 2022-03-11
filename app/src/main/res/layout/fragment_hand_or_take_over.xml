@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="tst"
+            type="Integer"/>
+        <variable
+            name="validPlatNo"
+            type="Boolean"/>
+        <variable
+            name="validEmirates"
+            type="Boolean"/>
+
+        <variable
+            name="validPlateCode"
+            type="Boolean"/>
+
+        <variable
+            name="validDriver"
+            type="Boolean"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.HandOrTakeOverFragment">
+
+        <!-- ConstraintLayout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/HandOrTakeOverPg_Container_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/HandOrTakeOverPg_innerContainer_constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Label -->
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_VehicleInfo_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/SubmissionPg_VehicleInfo_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_ButtonBackground"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <!-- Label -->
+
+                    <!-- Label -->
+                    <TextView
+                        android:visibility="@{validPlatNo ? View.VISIBLE  : View.GONE }"
+                        android:id="@+id/HandOrTakeOverPg_Emirates_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_Emirates_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_PlateNo_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_PlateNo_EditText" />
+
+
+                    <TextView
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/HandOrTakeOverPg_PlateCode_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/HandOrTakeOverPg_PlateCode_TextView_Txt"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TextForeground"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+
+                        app:layout_constraintStart_toStartOf="@+id/HandorTakeOverPg_Code_RecyclerView"
+                        app:layout_constraintTop_toTopOf="@+id/HandOrTakeOverPg_Emirates_TextView" />
+
+                    <EditText
+                        android:id="@+id/SubmissionPg_PlateNo_EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/grey_border"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/HandOrTakeOverPg_PlateNo_TextView_Txt"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+
+                    <EditText
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/SubmissionPg_KM_EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/grey_border"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/HandOrTakeOverPg_KM_TextView_Txt"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
+                        app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_Code_RecyclerView" />
+
+                    <EditText
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/SubmissionPg_FuelTank_EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:background="@drawable/grey_border"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/HandOrTakeOverPg_FuelTank_TextView_Txt"
+                        android:inputType="text"
+                        android:maxLength="20"
+                        android:padding="20dp"
+
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_KM_EditText"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_KM_EditText" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="@{validPlatNo ? View.VISIBLE  : View.GONE }"
+                        android:id="@+id/HandorTakeOverPg_Emirates_RecyclerView"
+
+                        android:layout_width="300dp"
+                        android:layout_height="170dp"
+
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/grey_border_greybackground"
+                        android:fadeScrollbars="false"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:scrollbarThumbVertical="@color/white"
+                        android:scrollbars="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintStart_toStartOf="@+id/HandOrTakeOverPg_Emirates_TextView"
+
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_Emirates_TextView"
+                        app:spanCount="10"
+                        tools:itemCount="10"
+                        tools:listitem="@layout/recycler_row_emirates" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/HandorTakeOverPg_Code_RecyclerView"
+                        android:layout_width="300dp"
+                        android:layout_height="170dp"
+                        android:layout_marginStart="32dp"
+                        android:background="@drawable/grey_border_greybackground"
+                        android:fadeScrollbars="false"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:scrollbarThumbVertical="@color/white"
+                        android:scrollbars="vertical"
+
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintStart_toEndOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
+                        app:layout_constraintTop_toTopOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
+                        app:spanCount="10"
+                        tools:itemCount="10"
+                        tools:listitem="@layout/recycler_row_code" />
+
+                    <Button
+
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
+
+                        android:id="@+id/HandorTakeOverPg_Date_Button"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="6"
+                        android:background="@color/colorDate"
+                        android:drawableEnd="@drawable/down_arrow_black"
+                        android:padding="5dp"
+                        android:text="@string/HandOrTakeOverPg_Date_TextView_Txt"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="false"
+                        android:textColor="#757575"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_KM_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_FuelTank_EditText"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+
+                    <!-- Label -->
+
+                    <Button
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
+
+                        android:id="@+id/HandorTakeOverPg_Time_Button"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_weight="6"
+                        android:background="@color/colorDate"
+                        android:drawableEnd="@drawable/down_arrow_black"
+                        android:text="@string/HandOrTakeOverPg_Time_TextView_Txt"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="false"
+                        android:textColor="#757575"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/HandorTakeOverPg_Date_Button"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_KM_EditText"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
+
+                        android:id="@+id/HandorTakeOverPg_DriverInfo_Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/driver_identification"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_ButtonBackground"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_Date_Button" />
+
+
+                    <EditText
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/SubmissionPg_IDNo_EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/grey_border"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/HandOrTakeOverPg_IDNo_TextView_Txt"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/HandorTakeOverPg_Date_Button"
+                        app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_DriverInfo_Button" />
+
+                    <EditText
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
+
+                        android:id="@+id/SubmissionPg_DriverName_EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:background="@color/colorDate"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/HandOrTakeOverPg_DriverName_TextView_Hint"
+                        android:inputType="none"
+                        android:maxLength="20"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_IDNo_EditText"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_IDNo_EditText" />
+
+                    <EditText
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/SubmissionPg_ContactNo_EditText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@color/colorDate"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:fontFamily="@font/lato_semibold"
+                        android:hint="@string/HandOrTakeOverPg_ContactNo_TextView_Hint"
+                        android:inputType="none"
+                        android:maxLength="20"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_IDNo_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_DriverName_EditText" />
+
+                    <LinearLayout
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
+                        android:id="@+id/SubmissionPg_SubmitButton_LinearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="50dp"
+                        android:layout_marginBottom="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_ContactNo_EditText">
+
+                        <Button
+                            android:id="@+id/HandOrTakeOverPg_Review_Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="32dp"
+                            android:background="@drawable/rectangle_background"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/Btn_Review"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                            android:textSize="24sp" />
+
+                        <Button
+                            android:id="@+id/HandOrTakeOverPg_Continue_Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/rectangle_background"
+                            android:fontFamily="@font/lato_regular"
+                            android:text="@string/Btn_Continue"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorPepsi_Heading_ButtonTxt"
+                            android:textSize="24sp" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

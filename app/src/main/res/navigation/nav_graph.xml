@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+<!--    <fragment-->
+<!--        android:id="@+id/loginFragment"-->
+<!--        android:name="com.pepsidrc.fleet_tracker.fragment.LoginFragment"-->
+<!--        android:label="login_fragment"-->
+<!--        tools:layout="@layout/login_fragment" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_loginFragment_to_homeFragment"-->
+<!--            app:destination="@id/homeFragment" />-->
+<!--    </fragment>-->
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.pepsidrc.fleet_tracker.fragment.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_movementFragment"
+            app:destination="@id/movementFragment" />
+<!--        <argument-->
+<!--            android:name="TaskID1"-->
+<!--            app:argType="integer"-->
+<!--            android:defaultValue="0" />-->
+    </fragment>
+    <fragment
+        android:id="@+id/movementFragment"
+        android:name="com.pepsidrc.fleet_tracker.fragment.MovementFragment"
+        android:label="movement_fragment"
+        tools:layout="@layout/fragment_movement">
+        <action
+            android:id="@+id/action_movementFragment_to_vehicleFragment"
+            app:destination="@id/vehicleFragment" />
+        <argument
+            android:name="taskid"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/vehicleFragment"
+        android:name="com.pepsidrc.fleet_tracker.fragment.VehicleFragment"
+        android:label="vehicle_fragment"
+        tools:layout="@layout/fragment_vehicle" >
+        <action
+            android:id="@+id/action_vehicleFragment_to_handOrTakeOverFragment"
+            app:destination="@id/handOrTakeOverFragment" />
+        <argument
+            android:name="taskid"
+            app:argType="integer" />
+        <argument
+            android:name="subtaskid"
+            app:argType="integer" />
+        <argument
+            android:name="movementType"
+            app:argType="string"
+            android:defaultValue="Hand Over" />
+    </fragment>
+    <fragment
+        android:id="@+id/handOrTakeOverFragment"
+        android:name="com.pepsidrc.fleet_tracker.fragment.HandOrTakeOverFragment"
+        android:label="hand_or_take_over_fragment"
+        tools:layout="@layout/fragment_hand_or_take_over" >
+        <action
+            android:id="@+id/action_handOrTakeOverFragment_to_distributionFragment"
+            app:destination="@id/distributionFragment" />
+        <argument
+            android:name="taskid"
+            app:argType="integer" />
+        <argument
+            android:name="subtaskid"
+            app:argType="integer" />
+        <argument
+            android:name="vehicleid"
+            app:argType="integer" />
+        <argument
+            android:name="heading"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/distributionFragment"
+        android:name="com.pepsidrc.fleet_tracker.fragment.DistributionFragment"
+        android:label="distribution_fragment"
+        tools:layout="@layout/fragment_distribution" >
+        <action
+            android:id="@+id/action_distributionFragment_to_submissionFragment"
+            app:destination="@id/submissionFragment" />
+        <argument
+            android:name="heading"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/submissionFragment"
+        android:name="com.pepsidrc.fleet_tracker.fragment.SubmissionFragment"
+        android:label="submission_fragment"
+        tools:layout="@layout/fragment_submission" >
+        <argument
+            android:name="heading"
+            app:argType="string" />
+    </fragment>
+</navigation>
