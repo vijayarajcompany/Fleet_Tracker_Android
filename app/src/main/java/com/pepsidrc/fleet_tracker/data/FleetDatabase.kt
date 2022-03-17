@@ -4,13 +4,16 @@ import androidx.room.RoomDatabase
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
+import androidx.room.TypeConverters
 
 
-@Database(entities = [UserTbl::class,TaskTbl::class], version = 3)
+@Database(entities = [UserTbl::class,TaskTbl::class,SubTaskTbl::class,VehicleTbl::class], version = 9)
+@TypeConverters(Converters::class)
 abstract class FleetDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun taskDao(): TaskDao
+    abstract fun vehicleDao(): VehiclesDao
 
     companion object {
         @Volatile
@@ -37,9 +40,6 @@ abstract class FleetDatabase: RoomDatabase() {
             return FleetInstance
         }
     }
-
-
 //    context.applicationContext,
-
 
 }

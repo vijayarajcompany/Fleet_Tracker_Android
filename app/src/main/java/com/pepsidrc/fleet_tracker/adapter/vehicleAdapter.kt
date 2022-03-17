@@ -3,6 +3,7 @@ package com.pepsidrc.fleet_tracker.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.pepsidrc.fleet_tracker.R
@@ -29,20 +30,10 @@ class VehicleAdapter(
         with(holder.binding) {
             VehiclePgVehicleLabel.text = vehicleee.name
 
-//            val img = ResourcesCompat.getDrawable(context.getResources(),R.drawable.home_icon,context.getTheme())
-//            holder.binding.VehiclePgVehicleImageView.setImageDrawable(img)
-//            COIL Image Handling
-            when (vehicleee.id) {
-                1 ->   VehiclePgVehicleImageView.load(R.drawable.car1)
-                2 ->   VehiclePgVehicleImageView.load(R.drawable.truck2)
-                3 ->   VehiclePgVehicleImageView.load(R.drawable.van2)
-                4 ->   VehiclePgVehicleImageView.load(R.drawable.bus1)
-                5 ->   VehiclePgVehicleImageView.load(R.drawable.lift1)
-                else -> {
-                    VehiclePgVehicleImageView.load(R.drawable.rectangle_background)
-                }
-            }
-//            VehiclePgVehicleImageView.load(R.drawable.home_icon)
+            val img = ResourcesCompat.getDrawable(context.getResources(),R.drawable.home_icon,context.getTheme())
+            holder.binding.VehiclePgVehicleImageView.setImageDrawable(img)
+
+            SetVehicleImage(vehicleee)
 
 
         }
@@ -50,7 +41,29 @@ class VehicleAdapter(
             onItemClick(vehicleee)
         }
 
+    }
 
+    private fun RecyclerRowVehicleBinding.SetVehicleImage(
+        vehicleee: VehicleModel
+    ) {
+        //COIL Image Handling
+        if (vehicleee.name.lowercase().trim().contains("car")) {
+            VehiclePgVehicleImageView.load(R.drawable.car1)
+        } else if (vehicleee.name.lowercase().trim().contains("truck")) {
+            VehiclePgVehicleImageView.load(R.drawable.truck2)
+        } else if (vehicleee.name.lowercase().trim().contains("van")) {
+            VehiclePgVehicleImageView.load(R.drawable.van2)
+        }
+        else if (vehicleee.name.lowercase().trim().contains("bus")) {
+            VehiclePgVehicleImageView.load(R.drawable.bus1)
+        }
+        else if (vehicleee.name.lowercase().trim().contains("lift")) {
+            VehiclePgVehicleImageView.load(R.drawable.lift1)
+        }
+        else
+        {
+            VehiclePgVehicleImageView.load(R.drawable.car1)
+        }
     }
 
     override fun getItemCount(): Int = vehicle.size

@@ -25,6 +25,9 @@ import kotlinx.coroutines.launch
 
 
 import androidx.lifecycle.lifecycleScope
+import com.pepsidrc.fleet_tracker.data.Parts
+//import com.squareup.moshi.Moshi
+//import com.squareup.moshi.Types
 
 private const val TAG = "LoginFragment"
 
@@ -205,6 +208,8 @@ class LoginFragment : Fragment() {
             LgPgSigninButton.setOnClickListener {
                 LgPgSigninButton.startAnimation(bounce)
                 lifecycleScope.launch {
+//                    val partts = listOf<Parts>(Parts(1), Parts(2), Parts(5))
+//                    FromPartsListToString(partts)
                     if (basicValidation()){
                         GetLoginDetails()
                         if (credentialsValidation()){
@@ -225,6 +230,15 @@ class LoginFragment : Fragment() {
         binding.LgPgErrorLabel.visibility = View.INVISIBLE
         Toast.makeText(requireContext(), "Please Login", Toast.LENGTH_SHORT).show()
     }
+
+//    fun FromPartsListToString(PartsListObjects: List<Parts>): String {
+//        val moshi = Moshi.Builder().build()
+////        val type = Types.newParameterizedType(Parts::class.java,List::class.java)
+//        val type = Types.newParameterizedType(List::class.java, Parts::class.java)
+//        val adapter = moshi.adapter<List<Parts>>(type)
+//        val strParts:String = adapter.toJson(PartsListObjects)
+//        return strParts
+//    }
 
     private fun Setup_UI() {
 

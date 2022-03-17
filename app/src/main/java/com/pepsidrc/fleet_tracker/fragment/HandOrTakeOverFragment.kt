@@ -28,9 +28,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.util.Pair
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.pepsidrc.fleet_tracker.R
 
@@ -46,7 +44,7 @@ class HandOrTakeOverFragment : Fragment() {
     private val args:HandOrTakeOverFragmentArgs by navArgs()
     private var taskid:Int? = null
     private var subtaskid:Int? = null
-    private var vehicleid:Int? = null
+    private var vehiclename:String? = null
     private var heading:String? = null
 
 
@@ -79,7 +77,9 @@ class HandOrTakeOverFragment : Fragment() {
         //        }
         taskid = args.taskid
         subtaskid = args.subtaskid
-        vehicleid = args.vehicleid
+
+        vehiclename = args.vehicleName
+
         heading = args.heading
         binding.HandOrTakeOverPgContinueButton.setOnClickListener {
             hideKeyboard()
@@ -335,7 +335,7 @@ class HandOrTakeOverFragment : Fragment() {
 
             val maxCal = Calendar.getInstance()
             maxCal.time = today
-            maxCal.add(Calendar.YEAR, 0)
+            maxCal.add(Calendar.YEAR, 1)
 
             datepickerdialog.datePicker.minDate = minCal.timeInMillis
             datepickerdialog.datePicker.maxDate = maxCal.timeInMillis

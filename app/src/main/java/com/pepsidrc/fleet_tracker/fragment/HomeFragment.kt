@@ -77,6 +77,18 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+
+        viewModel.task_details?.observe(viewLifecycleOwner) { task ->
+            if (task != null) {
+                if (task.isNotEmpty()) {
+                    Setup_Buisness()
+                    Progress_dialog!!.hide()
+                }
+            }
+        }
+
+
         Common.isInternetAvailable.observe(viewLifecycleOwner) { available ->
             if (!available) {
                 Toast.makeText(
@@ -88,7 +100,7 @@ class HomeFragment : Fragment() {
             }
         }
         GetTaskDetails()
-        Setup_Buisness()
+//        Setup_Buisness()
     }
 
     private val onItemClick:(TaskModel) -> Unit = { tsk ->
@@ -140,6 +152,9 @@ class HomeFragment : Fragment() {
                 .show()
         }
     }
+
+
+
 
 }
 

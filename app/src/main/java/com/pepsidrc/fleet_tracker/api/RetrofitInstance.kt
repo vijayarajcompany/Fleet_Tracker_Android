@@ -3,12 +3,15 @@ package com.pepsidrc.fleet_tracker.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-//import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+
+import retrofit2.converter.gson.GsonConverterFactory
+
 //import retrofit2.converter.gson.GsonConverterFactory
+
 
 object RetrofitInstance {
 //        private const val BASE_URL = "https://drcadjust.pepsidrc.ae/api/v1/"
@@ -36,8 +39,15 @@ object RetrofitInstance {
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
-//    private val moshi = Moshi.Builder().build()
 
+
+//    private val moshi = Moshi.Builder().build()
+//private val retrofit by lazy {
+//    Retrofit.Builder()
+//        .baseUrl(BASE_URL)
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
+//}
     private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)

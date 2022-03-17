@@ -3,12 +3,10 @@ package com.pepsidrc.fleet_tracker.viewModel
 import android.util.Log
 import androidx.lifecycle.*
 import com.pepsidrc.fleet_tracker.api.RetrofitInstance
+import com.pepsidrc.fleet_tracker.data.SubTaskTbl
 import com.pepsidrc.fleet_tracker.data.TaskTbl
 import com.pepsidrc.fleet_tracker.data.UserTbl
-import com.pepsidrc.fleet_tracker.model.DepartmentModel
-import com.pepsidrc.fleet_tracker.model.Post
-import com.pepsidrc.fleet_tracker.model.TaskModel
-import com.pepsidrc.fleet_tracker.model.UserModel
+import com.pepsidrc.fleet_tracker.model.*
 import com.pepsidrc.fleet_tracker.repository.TaskRepository
 import com.pepsidrc.fleet_tracker.repository.UserRepository
 import kotlinx.coroutines.launch
@@ -22,9 +20,13 @@ private const val TAG = "HomeViewModel"
             }
         }
 
-        private val _taskdetails: List<TaskTbl>? = null
-        var task_details: List<TaskTbl>? = null
+        private val _taskdetails: MutableLiveData<List<TaskTbl>>? =   MutableLiveData()
+        var task_details: LiveData<List<TaskTbl>>? = null
             get() = _taskdetails
+
+//        private val _taskdetails: List<TaskTbl>? = null
+//        var task_details: List<TaskTbl>? = null
+//            get() = _taskdetails
 
         private val _isLoading = MutableLiveData(false)
         val isLoading: LiveData<Boolean>
@@ -34,15 +36,6 @@ private const val TAG = "HomeViewModel"
         val errorMessage: LiveData<String?>
             get() = _errorMessage
 
-
-    private val _tasks: MutableLiveData<List<TaskModel>> = MutableLiveData()
-    val tasks: LiveData<List<TaskModel>>
-        get() = _tasks
-
-
-    private val _depart: MutableLiveData<List<DepartmentModel>> = MutableLiveData()
-    val depart: LiveData<List<DepartmentModel>>
-        get() = _depart
 
         // ROOM DATABASE
         suspend fun getAllTasks():List<TaskModel>?{
@@ -65,13 +58,21 @@ private const val TAG = "HomeViewModel"
             viewModelScope.launch {
                 _errorMessage.value = null
                 _isLoading.value = true
+
                 try {
+
                     val tskDetails = taskRepository.getTasksFromWebApi()
-                    task_details = tskDetails
+
                     if (!tskDetails.isNullOrEmpty()) {
                         taskRepository.insertTaskToDB(tskDetails)
+                        _taskdetails?.value = tskDetails!!
                     }
                     _isLoading.value = false
+//                    task_details = tasks
+//                    if (!tasks.isNullOrEmpty()) {
+//                        taskRepository.insertTaskToDB(tskDetails)
+//                    }
+
                 } catch (e: Exception) {
                     _isLoading.value = false
                     _errorMessage.value = e.message
@@ -91,7 +92,7 @@ private const val TAG = "HomeViewModel"
             _isLoading.value = true
             try {
                 val allTasks = RetrofitInstance.api.getDepartment()
-                val currentPosts = _depart.value ?: emptyList()
+//                val currentPosts = _depart.value ?: emptyList()
 //                _tasks.value = allTasks
 
                 var tssst = 786234
@@ -112,7 +113,7 @@ private const val TAG = "HomeViewModel"
             _isLoading.value = true
             try {
                 val allTasks = RetrofitInstance.api.getRestrooms()
-                val currentPosts = _tasks.value ?: emptyList()
+//                val currentPosts = _tasks.value ?: emptyList()
 //                _tasks.value = allTasks
 
             } catch (e: Exception) {
@@ -130,7 +131,7 @@ private const val TAG = "HomeViewModel"
             _isLoading.value = true
             try {
                 val allTasks = RetrofitInstance.api.getBreaches()
-                val currentPosts = _tasks.value ?: emptyList()
+//                val currentPosts = _tasks.value ?: emptyList()
 //                _tasks.value = allTasks
 
             } catch (e: Exception) {

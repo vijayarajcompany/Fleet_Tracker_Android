@@ -12,8 +12,6 @@ class MovementAdapter(private val subtasks: List<SubTaskModel>, private val onIt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-
-
             RecyclerRowMovementBinding.inflate(LayoutInflater.from(parent.context), parent,false)
         )
 
@@ -29,7 +27,6 @@ class MovementAdapter(private val subtasks: List<SubTaskModel>, private val onIt
         holder.itemView.setOnClickListener{
             onItemClick(subtask)
         }
-
 
     }
 

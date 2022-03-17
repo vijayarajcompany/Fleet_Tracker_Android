@@ -1,13 +1,16 @@
 package com.pepsidrc.fleet_tracker.api
 
 import androidx.lifecycle.LiveData
+import com.pepsidrc.fleet_tracker.data.SubTaskTbl
 import com.pepsidrc.fleet_tracker.data.TaskTbl
 import com.pepsidrc.fleet_tracker.data.UserTbl
+import com.pepsidrc.fleet_tracker.data.VehicleTbl
 import com.pepsidrc.fleet_tracker.model.*
 import retrofit2.Response
 import retrofit2.http.GET
 
 interface FleetApi {
+
 
     @GET("users/")
     suspend fun getLoginDetails(): Response<List<UserTbl>>
@@ -15,10 +18,11 @@ interface FleetApi {
     @GET("task/")
     suspend fun getTasks(): Response<List<TaskTbl>>
 
+    @GET("subtask/")
+    suspend fun getSubTasks(): Response<List<SubTaskTbl>>
 
-
-
-
+    @GET("vehicle/")
+    suspend fun getVehicles(): Response<List<VehicleTbl>>
 
 
 

@@ -74,8 +74,8 @@
             android:name="subtaskid"
             app:argType="integer" />
         <argument
-            android:name="vehicleid"
-            app:argType="integer" />
+            android:name="vehicleName"
+            app:argType="string" />
         <argument
             android:name="heading"
             app:argType="string" />
