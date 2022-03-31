@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 
 
 import androidx.lifecycle.lifecycleScope
-import com.pepsidrc.fleet_tracker.data.Parts
 //import com.squareup.moshi.Moshi
 //import com.squareup.moshi.Types
 

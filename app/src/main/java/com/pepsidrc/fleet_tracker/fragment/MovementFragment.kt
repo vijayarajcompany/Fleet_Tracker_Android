@@ -121,6 +121,7 @@ class MovementFragment : Fragment() {
         GetSubTaskDetails()
 //        Setup_Buisness()
     }
+
     private val onItemClick:(SubTaskModel) -> Unit = { subtsk ->
         Log.i(TAG,"tapped Subtask is $subtsk")
         val movementType = when (subtsk.name.lowercase().trim()) {

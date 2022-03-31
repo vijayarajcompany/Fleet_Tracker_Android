@@ -1,6 +1,8 @@
 package com.pepsidrc.fleet_tracker.fragment
 
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
@@ -10,7 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
+import android.widget.*
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.pepsidrc.fleet_tracker.activity.MainActivity
@@ -23,17 +28,22 @@ import com.pepsidrc.fleet_tracker.model.PlateCodeModel
 import com.pepsidrc.fleet_tracker.viewModel.HandOrTakeOverViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.pepsidrc.fleet_tracker.R
+import com.pepsidrc.fleet_tracker.adapter.FuelTankArrayAdapter
+import com.pepsidrc.fleet_tracker.common.Common
+import com.pepsidrc.fleet_tracker.model.FuelTankModel
+import com.pepsidrc.fleet_tracker.repository.HandorTakeOverRepository
+
+
+import android.view.animation.AnimationUtils
 
 private const val TAG = "HandOrTakeOverFragment"
 
+enum class ButtonType {
+    REVIEW, CONTINUE, NONE
+}
 class HandOrTakeOverFragment : Fragment() {
 
     //    companion object {
@@ -46,8 +56,17 @@ class HandOrTakeOverFragment : Fragment() {
     private var subtaskid:Int? = null
     private var vehiclename:String? = null
     private var heading:String? = null
+    private lateinit var currentButtonType:ButtonType
 
 
+    private var bounce: Animation? = null
+    private var shake: Animation? = null
+    private var regshake: Animation? = null
+    private var Progress_dialog: Dialog? = null
+    private lateinit var handorTakeOverRepository: HandorTakeOverRepository
+
+    var fuelTankList:MutableList<FuelTankModel>? = ArrayList()
+    var selectedTank:FuelTankModel? = null
     private var strplateNumber:String? = null
     private var stremirates:String? = null
     private var strPlatecode:String? = null
@@ -56,11 +75,11 @@ class HandOrTakeOverFragment : Fragment() {
     private var strDriverID:String? = null
     private var strDriverName:String? = null
     private var strContactNo:String? = null
+    private var strSelectedDate:String? = null
+    private var strSelectedTime:String? = null
 
 
-
-
-    var dateofBirth: Date = Date()
+    var currDate: Date = Date()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,28 +91,523 @@ class HandOrTakeOverFragment : Fragment() {
         //Data Binding
          binding = DataBindingUtil.inflate(inflater,R.layout.fragment_hand_or_take_over,container,false)
          val view = binding.root
+
         //        binding.HandOrTakeOverPgContinueButton.setOnClickListener {
         //            openDistributionPage()
         //        }
         taskid = args.taskid
         subtaskid = args.subtaskid
-
         vehiclename = args.vehicleName
-
         heading = args.heading
         binding.HandOrTakeOverPgContinueButton.setOnClickListener {
             hideKeyboard()
-            openDistributionPage()
+
+            var ErrorMsg = ""
+            if(binding.SubmissionPgKMEditText.text.isNullOrEmpty())
+            {
+                ErrorMsg = "Please enter the KiloMeters"
+            }
+            else if( selectedTank?.id  == fuelTankList?.get(0)?.id ){
+                ErrorMsg = "Please select the Fuel Tank"
+            }
+
+            if (ErrorMsg.isEmpty()){
+                currentButtonType = ButtonType.CONTINUE
+                getEmployeeForID()
+            }
+            else
+            {
+                ShowValidationErrorDialog(ErrorMsg)
+                return@setOnClickListener
+            }
+
         }
         setup()
+//        binding.SubmissionPgPlateNoEditText.setText("")
+        with(binding) {
+//            validPlatNo = true
+//            validDriver = true
+            plateNoError = false
+            driverError = false
+        }
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HandOrTakeOverViewModel::class.java)
-        // TODO: Use the ViewModel
 
+//        viewModel = ViewModelProvider(this)[HandOrTakeOverViewModel::class.java]
+
+        handorTakeOverRepository = activity?.let { HandorTakeOverRepository(it.application,requireContext()) }!!
+        val factory = HandOrTakeOverViewModel.Factory(handorTakeOverRepository) // Factory
+        viewModel = ViewModelProvider(this, factory)[HandOrTakeOverViewModel::class.java] // ViewModel
+
+        setupFuelTank()
+
+        setupEmiratesPlateCode()
+
+        binding.SubmissionPgPlateNoEditText.setText("")
+
+        modelObserver()
+
+        with(binding) {
+//            validPlatNo = true
+            plateNoError = false
+            driverError = false
+        }
+
+    }
+
+    fun setup() {
+
+        currentButtonType = ButtonType.NONE
+        Progress_dialog = Dialog(requireContext(), android.R.style.Theme_Translucent_NoTitleBar_Fullscreen)
+        Progress_dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        Progress_dialog!!.setCancelable(false)
+        Progress_dialog!!.setContentView(R.layout.progress_bar_large)
+
+        bounce = AnimationUtils.loadAnimation(requireContext(), R.anim.bounce)
+        shake = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+        regshake = AnimationUtils.loadAnimation(requireContext(), R.anim.regshake)
+
+        val date = getCurrentDateTime()
+//      val dateInString = date.toString("yyyy/MM/dd HH:mm:ss")
+        val dateInString = date.toString("dd-MM-yyyy")
+        val TimeInString = date.toString("HH:mm")
+
+        (activity as MainActivity).setHardwareBackPressedStatus(true)
+        (activity as MainActivity).ChangeToolBarText(heading!!)
+
+        showCalender()
+        showTimer()
+
+        with(binding){
+
+            HandorTakeOverPgDateButton.text = dateInString
+            HandorTakeOverPgTimeButton.text = TimeInString
+
+            HandOrTakeOverPgInnerContainerConstraintLayout.setOnClickListener{
+                hideKeyboard()
+            }
+
+            HandOrTakeOverPgContainerConstraintLayout.setOnClickListener{
+                hideKeyboard()
+            }
+
+            SubmissionPgPlateNoEditText.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+                }
+            })
+            SubmissionPgPlateNoEditText.setOnEditorActionListener { v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    hideKeyboard()
+//                  showValidationDialog("Plate Number")
+                    printMsg("IME_ACTION_DONE")
+                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+                    //connect the data with binding
+//                    binding.validPlatNo = binding.validPlatNo != true
+//                    binding.validEmirates = binding.validEmirates != true
+//                    binding.validEmirates = false
+//                    binding.validPlateCode = false
+//                    binding.validDriver = false
+                    true
+                }
+                else
+                {
+                    printMsg("dfrwerqqewqrqwerqwer")
+                    false
+
+                }
+            }
+            SubmissionPgIDNoEditText.setOnEditorActionListener { v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    hideKeyboard()
+                    printMsg("IME_ACTION_DONE")
+                    currentButtonType = ButtonType.NONE
+                    getEmployeeForID()
+                    true
+                }
+                else
+                {
+                    false
+                }
+            }
+
+            HandOrTakeOverPgReviewButton.setOnClickListener{
+                hideKeyboard()
+                var ErrorMsg = ""
+                if(binding.SubmissionPgKMEditText.text.isNullOrEmpty())
+                {
+                    ErrorMsg = "Please enter the KM"
+                }
+                else if( selectedTank?.id  == fuelTankList?.get(0)?.id ){
+                    ErrorMsg = "Please select the Fuel Tank"
+                }
+
+                if (ErrorMsg.isEmpty())
+                {
+                    binding.driverError = true
+                    currentButtonType = ButtonType.REVIEW
+                    getEmployeeForID()
+                }
+                else
+                {
+                    ShowValidationErrorDialog(ErrorMsg)
+                }
+
+            }
+
+        }
+    }
+
+    fun SelectedFuelCard(fuelcard: FuelTankModel) {
+        this.selectedTank = fuelcard
+    }
+
+    private val onItemEmiratesClick: (EmiratesModel) -> Unit = { tsk ->
+        Log.i(TAG, "this is task $tsk")
+//        val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment()
+//        view?.findNavController()?.navigate(action)
+//        binding.validPlatNo = true
+        binding.validEmirates = true
+        binding.validPlateCode = false
+        binding.validDriver = false
+    }
+
+    private val onItemCodeClick: (PlateCodeModel) -> Unit = { tsk ->
+        Log.i(TAG, "this is task $tsk")
+
+        binding.validPlateCode = true
+        binding.validDriver = false
+    }
+
+    private fun clearControls()
+    {
+        with(binding){
+            if(!fuelTankList.isNullOrEmpty()){
+                SubmissionPgFuelTankSpinner.setSelection(0)
+            }
+            SubmissionPgPlateNoEditText.setText("")
+            SubmissionPgKMEditText.setText("")
+            SubmissionPgIDNoEditText.setText("")
+        }
+
+    }
+
+    private fun openDistributionPage() {
+        currentButtonType = ButtonType.NONE
+        clearControls()
+
+
+        val action = HandOrTakeOverFragmentDirections.actionHandOrTakeOverFragmentToDistributionFragment(heading!!)
+        view?.findNavController()?.navigate(action)
+    }
+
+fun printMsg(message:String)
+{
+    Log.i("TAG",message)
+}
+
+//private fun showValidationDialog(message: String){
+////    MaterialAlertDialogBuilder(requireContext())
+////        .setTitle(resources.getString(R.stri))
+//    MaterialAlertDialogBuilder(requireContext())
+//        .setTitle(message)
+//        .setMessage(message)
+//        .setNeutralButton("Cancel"){ dialog, _ ->
+//            dialog.cancel()
+//        }
+//        .show()
+//}
+
+    //BUISNESS LOGIC
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
+
+    private fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
+
+
+    //OBSERVER
+    private fun modelObserver() {
+        viewModel.employee_details?.observe(viewLifecycleOwner) { empdetails ->
+
+            if (empdetails != null) {
+                binding.driverName = empdetails.name
+                binding.driverContact = empdetails.contactnumber.toString()
+                with(binding) {
+                    validDriver = true
+                    driverError = false
+                }
+
+                when (currentButtonType) {
+                    ButtonType.CONTINUE -> openDistributionPage()
+                    ButtonType.REVIEW -> showReview()
+                    ButtonType.NONE -> ""
+                    // 'else' is not required because all cases are covered
+                }
+
+            }
+            else{
+                with(binding) {
+                    validDriver = false
+                    driverError = true
+                }
+
+                binding.handOrTakeOverPgDriverNoErrorTextView.startAnimation(regshake)
+            }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { Loading ->
+            if (Loading) {
+                Progress_dialog!!.show()
+            } else {
+                Progress_dialog!!.hide()
+            }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errors ->
+            if (errors != null) {
+                if (errors.isNotEmpty()) {
+                    binding.plateNoError = true
+                    Progress_dialog!!.hide()
+                }
+            }
+        }
+
+        viewModel.errorEmpMessage.observe(viewLifecycleOwner) { errors ->
+            if (errors != null) {
+                if (errors.isNotEmpty()) {
+                    Progress_dialog!!.hide()
+                    with(binding) {
+                        validDriver = false
+                        driverError = true
+                        handOrTakeOverPgDriverNoErrorTextView.startAnimation(regshake)
+                    }
+                }
+            }
+        }
+
+    }
+
+    //DIALOG
+    private fun showReview() {
+        currentButtonType = ButtonType.NONE
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater.inflate(R.layout.dialog_review_takehandover, null)
+        builder.setView(inflater)
+        builder.setCancelable(false)
+        val dialogImagecancelbtn = inflater.findViewById<Button>(R.id.SignCancel_button)
+        val dialog: AlertDialog = builder.create()
+        dialogImagecancelbtn?.setOnClickListener {
+            dialog.cancel()
+        }
+
+
+        val reviewHeading = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
+        val reviewPlatNo = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_PlateNo_TextView2)
+        val reviewEmirates = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Emirates_TextView2)
+        val reviewPlateCode = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_PlateCode_TextView2)
+        val reviewKM= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_KM_TextView2)
+        val reviewFuelTank= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_FuelTank_TextView2)
+        val reviewDate= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Date_TextView2)
+        val reviewTime= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Time_TextView2)
+        val reviewDriverID= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_IDNo_TextView2)
+        val reviewDriverName= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_DriverName_TextView2)
+        val reviewContactNo= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_ContactNo_TextView2)
+
+
+//        private var strplateNumber:String? = null
+//        private var stremirates:String? = null
+//        private var strPlatecode:String? = null
+//        private var strKM:String? = null
+//        private var strFuelTank:String? = null
+//        private var strDriverID:String? = null
+//        private var strDriverName:String? = null
+//        private var strContactNo:String? = null
+        with(binding){
+
+            strplateNumber = SubmissionPgPlateNoEditText.text.toString()
+            strKM = SubmissionPgKMEditText.text.toString()
+            strDriverID = SubmissionPgIDNoEditText.text.toString()
+
+            strSelectedDate = HandorTakeOverPgDateButton.text.toString()
+            strSelectedTime = HandorTakeOverPgTimeButton.text.toString()
+
+            strDriverName = SubmissionPgDriverNameEditText.text.toString()
+            strContactNo = SubmissionPgContactNoEditText.text.toString()
+
+        }
+
+        reviewHeading.text = heading!!
+        reviewPlatNo.text = strplateNumber!!
+        reviewKM.text = strKM!!
+        reviewFuelTank.text = selectedTank?.id.toString()
+        reviewDate.text = strSelectedDate
+        reviewTime.text = strSelectedTime
+        reviewDriverID.text = strDriverID!!
+
+        reviewDriverName.text = strDriverName!!
+        reviewContactNo.text = strContactNo!!
+        reviewEmirates.text = heading!!
+        reviewPlateCode.text = heading!!
+
+//        inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView).setText("hello vijayarajjjjjjjjjjj")
+
+        dialog.show()
+    }
+
+    private fun ShowValidationErrorDialog(ErrorMsg:String) {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater.inflate(R.layout.dialog_validate_hand_or_take_over, null)
+        builder.setView(inflater)
+        builder.setCancelable(false)
+
+        val dialog: AlertDialog = builder.create()
+        val dialogokbtn = inflater!!.findViewById<Button>(R.id.Ok_button)
+        val dialogcancelbtn = inflater!!.findViewById<Button>(R.id.ErrorCancel_button)
+        val dialogoErrorTxt = inflater!!.findViewById<TextView>(R.id.Errortxt)
+
+        dialogoErrorTxt.text = ErrorMsg
+
+        dialogokbtn?.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialogcancelbtn?.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.show()
+    }
+
+    fun showCalender()
+    {
+
+        binding.HandorTakeOverPgDateButton.setOnClickListener {
+            binding.HandorTakeOverPgDateButton.showSoftInputOnFocus = false
+            val cal = Calendar.getInstance()
+            val today = Date()
+            cal.time = today
+            val y = (cal.get(Calendar.YEAR))
+            val m = cal.get(Calendar.MONTH)
+            val d = cal.get(Calendar.DAY_OF_MONTH)
+
+            var datePickerThemeResId = 4
+            val datepickerdialog: DatePickerDialog =
+                DatePickerDialog(
+                    requireContext(),
+                    datePickerThemeResId,
+                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                        var mnth = monthOfYear + 1
+                        var monthOf_Year = (monthOfYear + 1).toString()
+                        if (monthOf_Year.length < 2) {
+                            monthOf_Year = "0" + monthOf_Year
+                        }
+                        // Display Selected date in textbox
+                        val dtString = "" + dayOfMonth + "-" + monthOf_Year + "-" + year
+                        binding.HandorTakeOverPgDateButton.text  = dtString
+
+                        val sdf = SimpleDateFormat("dd-M-yyyy")
+                        currDate = sdf.parse(dtString)
+                    },
+                    y,
+                    m,
+                    d
+                )
+            val minCal = Calendar.getInstance()
+            minCal.time = today
+            minCal.add(Calendar.YEAR, -1)
+//            minCal.add(Calendar.MONTH, 1)
+
+            val maxCal = Calendar.getInstance()
+            maxCal.time = today
+            maxCal.add(Calendar.YEAR, 1)
+//            maxCal.add(Calendar.MONTH, 2)
+
+            datepickerdialog.datePicker.minDate = minCal.timeInMillis
+            datepickerdialog.datePicker.maxDate = maxCal.timeInMillis
+
+            datepickerdialog.show()
+        }
+    }
+
+    private fun showTimer()
+    {
+        val mTimePicker: TimePickerDialog
+        val mcurrentTime = Calendar.getInstance()
+        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
+        val minute = mcurrentTime.get(Calendar.MINUTE)
+
+        mTimePicker = TimePickerDialog(requireContext(), object : TimePickerDialog.OnTimeSetListener {
+            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                binding.HandorTakeOverPgTimeButton.text = String.format("%d : %d", hourOfDay, minute)
+            }
+        }, hour, minute, false)
+
+
+        binding.HandorTakeOverPgTimeButton.setOnClickListener {
+            mTimePicker.show()
+        }
+
+
+    }
+
+
+
+
+    //DATA
+    private fun setupFuelTank(){
+
+        fuelTankList?.clear()
+        fuelTankList?.add(FuelTankModel("Fuel Tank","Half filled"))
+        fuelTankList?.add(FuelTankModel("1","Empty"))
+        fuelTankList?.add(FuelTankModel("2","Near Empty"))
+        fuelTankList?.add(FuelTankModel("3","Near Half Tank"))
+        fuelTankList?.add(FuelTankModel("4","Half Tank"))
+        fuelTankList?.add(FuelTankModel("5","Above Half filled"))
+        fuelTankList?.add(FuelTankModel("6","Near Full Tank"))
+        fuelTankList?.add(FuelTankModel("7","Full Tank"))
+//        fuelCardList?.add(FuelCardModel("8","Full Tank"))
+        this.selectedTank =  fuelTankList?.get(0)
+
+        val FuelTankAdapter = FuelTankArrayAdapter(
+            requireContext(),
+            R.layout.spinner_item,
+            fuelTankList!!
+        )
+
+//      FuelAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.SubmissionPgFuelTankSpinner.adapter = FuelTankAdapter
+        binding.SubmissionPgFuelTankSpinner.setSelection(0)
+        binding.SubmissionPgFuelTankSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                println("Nothing Selected")
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                SelectedFuelCard(fuelTankList!![position])
+            }
+        }
+//        val languages = arrayOf("Java", "PHP", "Kotlin", "Javascript", "Python", "Swift")
+//        var aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+//        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        binding.SubmissionPgFuelTankSpinner.adapter = aa
+
+    }
+
+    private fun setupEmiratesPlateCode()
+    {
         val tsk1 = EmiratesModel(33, "Abu Dhabi")
         val tsk2 = EmiratesModel(33, "Ajman")
         val tsk3 = EmiratesModel(33, "Dubai")
@@ -109,265 +623,50 @@ class HandOrTakeOverFragment : Fragment() {
         val tsk31 = PlateCodeModel(33, "B")
         val tsk41 = PlateCodeModel(33, "C")
         val _code: List<PlateCodeModel> = listOf(tsk11, tsk21, tsk31, tsk41)
-        binding.HandorTakeOverPgCodeRecyclerView.adapter =
-            activity?.let { PlateCodeAdapter(_code, it.applicationContext, onItemCodeClick) }
+        binding.HandorTakeOverPgCodeRecyclerView.adapter = activity?.let { PlateCodeAdapter(_code, it.applicationContext, onItemCodeClick) }
 
 
     }
 
-    fun setup() {
-
-        val date = getCurrentDateTime()
-//      val dateInString = date.toString("yyyy/MM/dd HH:mm:ss")
-        val dateInString = date.toString("HH:mm:ss")
-
-        (activity as MainActivity).setHardwareBackPressedStatus(true)
-        (activity as MainActivity).ChangeToolBarText(heading!!)
-
-//        DDate1()
-          DDate2()
-//        DDate3()
-
-        with(binding){
-
-            HandorTakeOverPgTimeButton.setText(dateInString)
-
-            HandOrTakeOverPgInnerContainerConstraintLayout.setOnClickListener{
-                hideKeyboard()
-            }
-            HandOrTakeOverPgContainerConstraintLayout.setOnClickListener{
-                hideKeyboard()
-            }
-
-            SubmissionPgPlateNoEditText.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable) {}
-                override fun beforeTextChanged(s: CharSequence, start: Int,
-                                               count: Int, after: Int) {
-                }
-                override fun onTextChanged(s: CharSequence, start: Int,
-                                           before: Int, count: Int) {
-                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
-                }
-            })
-            binding.SubmissionPgPlateNoEditText.setOnEditorActionListener { v, actionId, event ->
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                {
-                    hideKeyboard()
-//                    showValidationDialog("Plate Number")
-                    printMsg("IME_ACTION_DONE")
-
-                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
-
-                    //connect the data with binding
-//                    binding.validPlatNo = binding.validPlatNo != true
-//                    binding.validEmirates = binding.validEmirates != true
-//                    binding.validEmirates = false
-//                    binding.validPlateCode = false
-//                    binding.validDriver = false
-
-                    true
-                }
-                else
-                {
-                    printMsg("dfrwerqqewqrqwerqwer")
-                    false
-
-                }
-            }
-            binding.SubmissionPgIDNoEditText.setOnEditorActionListener { v, actionId, event ->
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                {
-                    hideKeyboard()
-                    printMsg("IME_ACTION_DONE")
-                    binding.validDriver = !binding.SubmissionPgIDNoEditText.text.isNullOrEmpty()
-                    true
-                }
-                else
-                {
-                    false
-
-                }
-            }
-
-            HandOrTakeOverPgReviewButton.setOnClickListener{
-                hideKeyboard()
-                showReview()
-            }
-
-        }
-    }
-
-    private val onItemEmiratesClick: (EmiratesModel) -> Unit = { tsk ->
-        Log.i(TAG, "this is task $tsk")
-//        val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment()
-//        view?.findNavController()?.navigate(action)
-//        binding.validPlatNo = true
-        binding.validEmirates = true
-        binding.validPlateCode = false
-        binding.validDriver = false
-
-    }
-
-    private val onItemCodeClick: (PlateCodeModel) -> Unit = { tsk ->
-        Log.i(TAG, "this is task $tsk")
-
-        binding.validPlateCode = true
-        binding.validDriver = false
-    }
-
-    private fun showReview() {
-
-        val builder = AlertDialog.Builder(requireContext())
-        val inflater = layoutInflater.inflate(R.layout.dialog_review_takehandover, null)
-        builder.setView(inflater)
-        builder.setCancelable(false)
-        val dialogImagecancelbtn = inflater.findViewById<Button>(R.id.SignCancel_button)
-        val dialog: AlertDialog = builder.create()
-        dialogImagecancelbtn?.setOnClickListener {
-            dialog.cancel()
-        }
-
-
-        val reviewHeading = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewPlatNo = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_PlateCode_TextView2)
-        val reviewEmirates = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Emirates_TextView2)
-        val reviewPlateCode = inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_PlateCode_TextView2)
-        val reviewKM= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewFuelTank= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewDate= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewTime= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewDriverID= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewDriverName= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-        val reviewContactNo= inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView)
-
-
-        reviewHeading.text = heading!!
-        reviewPlatNo.text = heading!!
-        reviewEmirates.text = heading!!
-        reviewPlateCode.text = heading!!
-        reviewKM.text = heading!!
-        reviewFuelTank.text = heading!!
-        reviewDate.text = heading!!
-        reviewTime.text = heading!!
-        reviewDriverID.text = heading!!
-        reviewDriverName.text = heading!!
-        reviewContactNo.text = heading!!
-
-
-        dialog.show()
-    }
-
-    private fun openDistributionPage() {
-        val action = HandOrTakeOverFragmentDirections.actionHandOrTakeOverFragmentToDistributionFragment(heading!!)
-        view?.findNavController()?.navigate(action)
-    }
-
-
-    fun DDate3() {
-        val datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
-                .build()
-
-        MaterialDatePicker.Builder.dateRangePicker().setSelection(
-            Pair(   MaterialDatePicker.thisMonthInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()
-            ))
-
-//        MaterialDatePicker.Builder().datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_TEXT)
-
-        datePicker.show(getParentFragmentManager(),"dsfs")
-    }
-
-    fun DDate1(){
-            binding.HandorTakeOverPgDateButton.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            val inflater = layoutInflater.inflate(R.layout.dialog_calendar1, null)
-            builder.setView(inflater)
-            val dialog: AlertDialog = builder.create()
-            val calendarvw = inflater.findViewById<View>(R.id.customCalendarView)
-
-//            calendar.setOnDayClickListener(OnDayClickListener { eventDay ->
-//                val clickedDayCalendar = eventDay.calendar
-//            })
-//            dialog.getWindow()?.setLayout(30, 40)
-//            dialog.getWindow()?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-            dialog.show()
-        }
-    }
-
-    fun DDate2()
+    //DATABASE CALLS
+    private fun getEmployeeForID()
     {
-        binding.HandorTakeOverPgDateButton.setOnClickListener {
-            binding.HandorTakeOverPgDateButton.showSoftInputOnFocus = false
-            val cal = Calendar.getInstance()
-            val today = Date()
-            cal.time = today
-            val y = (cal.get(Calendar.YEAR))
-            val m = cal.get(Calendar.MONTH)
-            val d = cal.get(Calendar.DAY_OF_MONTH)
-
-            var datePickerThemeResId = 4
-            val datepickerdialog: DatePickerDialog =
-                DatePickerDialog(
-                  requireContext(),
-                    datePickerThemeResId,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        var mnth = monthOfYear + 1
-                        var monthOf_Year = (monthOfYear + 1).toString()
-                        if (monthOf_Year.length < 2) {
-                            monthOf_Year = "0" + monthOf_Year
-                        }
-                        // Display Selected date in textbox
-                        val dtString = "" + dayOfMonth + "-" + monthOf_Year + "-" + year
-                        binding.HandorTakeOverPgDateButton.text  = dtString
-
-                        val sdf = SimpleDateFormat("dd-M-yyyy")
-                        dateofBirth = sdf.parse(dtString)
-                    },
-                    y,
-                    m,
-                    d
-                )
-            val minCal = Calendar.getInstance()
-            minCal.time = today
-            minCal.add(Calendar.YEAR, -1)
-
-            val maxCal = Calendar.getInstance()
-            maxCal.time = today
-            maxCal.add(Calendar.YEAR, 1)
-
-            datepickerdialog.datePicker.minDate = minCal.timeInMillis
-            datepickerdialog.datePicker.maxDate = maxCal.timeInMillis
-
-            datepickerdialog.show()
+        val isNotEmpty = !binding.SubmissionPgIDNoEditText.text.isNullOrEmpty()
+        binding.validDriver = isNotEmpty
+        if(isNotEmpty){
+            binding.driverError = false
+            getEmployeeFromDB( binding.SubmissionPgIDNoEditText.text.toString().trim().toInt())
+        }
+        else
+        {
+            binding.handOrTakeOverPgDriverNoErrorTextView.startAnimation(regshake)
+            binding.driverError = true
         }
     }
 
-    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
-        val formatter = SimpleDateFormat(format, locale)
-        return formatter.format(this)
-    }
 
-    fun getCurrentDateTime(): Date {
-        return Calendar.getInstance().time
-    }
-
-fun printMsg(message:String)
-{
-    Log.i("TAG",message)
-}
-
-private fun showValidationDialog(message: String){
-//    MaterialAlertDialogBuilder(requireContext())
-//        .setTitle(resources.getString(R.stri))
-    MaterialAlertDialogBuilder(requireContext())
-        .setTitle(message)
-        .setMessage(message)
-        .setNeutralButton("Cancel"){ dialog, _ ->
-            dialog.cancel()
+    private fun  getEmployeeFromDB(empID:Int) {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.getEmployeeFromDB(empID)
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
         }
-        .show()
-}
+    }
+
+//    private fun  getEmployeeFromDB(empID:Int) {
+//        val connect = Common.checkConnectivity(requireContext())
+//        if (connect) {
+//            viewModel.getEmployeeFromDB(empID)
+//        } else {
+//            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+//                .show()
+//        }
+//    }
+
+
+
+
 
 }

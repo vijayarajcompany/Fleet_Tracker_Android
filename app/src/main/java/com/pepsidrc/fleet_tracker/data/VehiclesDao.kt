@@ -11,6 +11,9 @@ interface VehiclesDao {
     @Insert
     fun insertVehicle(users: List<VehicleTbl>)
 
+    @Insert
+    fun insertVehiclePart(users: List<VehiclePartTbl>)
+
 //    @Query("SELECT * FROM Tbl_Vehicle")
 //    fun getAllVehicle(): List<Tbl_Vehicle>
 

@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.homeImageButton.setOnClickListener {
-
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
             navController = navHostFragment.navController

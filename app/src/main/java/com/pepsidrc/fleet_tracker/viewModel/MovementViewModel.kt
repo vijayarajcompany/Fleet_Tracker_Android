@@ -78,7 +78,6 @@ class MovementViewModel(private val taskRepository: TaskRepository) : ViewModel(
             try {
                 val subtskDetails = taskRepository.getSubTasksFromWebApi()
 
-
                 if (!subtskDetails.isNullOrEmpty()) {
                     taskRepository.insertSubTaskToDB(subtskDetails)
                     _subtaskdetails?.value = subtskDetails!!

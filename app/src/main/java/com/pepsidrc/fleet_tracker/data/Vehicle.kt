@@ -16,7 +16,16 @@ data class VehicleTbl(
     var part: List<Int>
 )
 
-data class Parts(var id:Int)
+//data class Parts(var id:Int)
+
+
+@Entity(tableName = "Tbl_VehiclePart")
+data class VehiclePartTbl(
+    @PrimaryKey
+    var id: Int,
+    var name: String
+)
+
 
 //@JsonClass(generateAdapter = true)
 //@AutoGenerateConverter(using = ConverterType.MOSHI)

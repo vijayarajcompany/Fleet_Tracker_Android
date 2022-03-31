@@ -44,17 +44,12 @@ import androidx.test.core.app.ApplicationProvider
 
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 
-
-
-
-
 private const val TAG = "DistributionFragment"
 class DistributionFragment : Fragment() {
 
 //    companion object {
 //        fun newInstance() = DistributionFragment()
 //    }
-
     private lateinit var binding: FragmentDistributionBinding
     private lateinit var viewModel: DistributionViewModel
     private val args:DistributionFragmentArgs by navArgs()
@@ -186,13 +181,7 @@ class DistributionFragment : Fragment() {
                 DistributionPgArabicButton.setBackgroundResource(R.color.colorPepsi_ButtonBackground_clicked)
                 DistributionPgEnglishButton.setBackgroundResource(R.color.colorPepsi_ButtonBackground)
             }
-
-
-
         }
-
-
-
     }
 
 //    fun setLocale(lang: String?) {

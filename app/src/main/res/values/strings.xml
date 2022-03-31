@@ -75,4 +75,15 @@
     <string name="SubmissionPg_LicenseInfo_TextView_Txt">Please Select Distribution License</string>
     <string name="SubmissionPg_CommentsInfo_TextView_Txt">Comments about the fault</string>
 
+    <string name="selected_item">Selected item:</string>
+
+    <string name="Ok">Ok</string>
+    <string name="error">Error</string>
+    <string name="PlateCodeError">Please Enter a Valid Plate Number </string>
+    <string name="EmployeeError">Please Enter a Valid Driver Number </string>
+    <string name="ErrorDriverNo">Please Enter a Valid Driver Number</string>
+
+
+    <string name="ErrorPlateNo">Please Enter a Valid Plate Number</string>
+
 </resources>

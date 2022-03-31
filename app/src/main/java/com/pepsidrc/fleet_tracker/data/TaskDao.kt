@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.pepsidrc.fleet_tracker.model.SubTaskModel
 import com.pepsidrc.fleet_tracker.model.TaskModel
+import com.pepsidrc.fleet_tracker.model.VehiclePartsModel
 
 @Dao
 interface TaskDao {
@@ -15,6 +16,9 @@ interface TaskDao {
     @Insert
     fun insertSubTask(subtasks: List<SubTaskTbl>)
 
+    @Insert
+    fun insertVehiclePart(parts: List<VehiclePartTbl>)
+
 
     @Query("SELECT * FROM Tbl_Task")
     fun getAllTasks(): List<TaskModel>
@@ -22,6 +26,11 @@ interface TaskDao {
     @Query("SELECT * FROM Tbl_SubTask")
     fun getAllSubTasks(): List<SubTaskModel>
 
+//    @Query("SELECT TOP(1) FROM Tbl_SubTask WHERE name = :name")
+//    fun getVehiclePartByName(name:String): VehiclePartsModel
+
+    @Query("SELECT id, name FROM Tbl_VehiclePart WHERE id IN (SELECT id FROM Tbl_Vehicle WHERE LOWER(name) = :name)")
+    fun getVehiclePart(name:String): List<VehiclePartsModel>
 //    @Query("SELECT * FROM Tbl_SubTask")
 //    fun getAllSubTasks(): List<SubTaskTbl>
 
@@ -30,4 +39,8 @@ interface TaskDao {
 
     @Query("DELETE  FROM Tbl_SubTask")
     fun deleteAllSubTasks()
+
+    @Query("DELETE  FROM Tbl_VehiclePart")
+    fun deleteAllParts()
+
 }

@@ -58,7 +58,9 @@ class HomeFragment : Fragment() {
     //    Lifecycle 2nd call
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
 //        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
         taskRepository = activity?.let { TaskRepository(it.application,requireContext()) }!!
         val factory = HomeViewModel.Factory(taskRepository) // Factory
         viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java] // ViewModel
@@ -70,6 +72,7 @@ class HomeFragment : Fragment() {
                 Progress_dialog!!.hide()
             }
         }
+
         viewModel.errorMessage.observe(viewLifecycleOwner) { errors ->
             if (errors != null) {
                 if (errors.isNotEmpty()) {
@@ -78,11 +81,29 @@ class HomeFragment : Fragment() {
             }
         }
 
-
         viewModel.task_details?.observe(viewLifecycleOwner) { task ->
             if (task != null) {
                 if (task.isNotEmpty()) {
+                    GetEmployeeFromWebApi()
                     Setup_Buisness()
+                    Progress_dialog!!.hide()
+                }
+            }
+        }
+
+
+        viewModel.employee_details?.observe(viewLifecycleOwner) { employee ->
+            if (employee != null) {
+                if (employee.isNotEmpty()) {
+                    GetVehiclePartsFromWebApi()
+//                    Progress_dialog!!.hide()
+                }
+            }
+        }
+
+        viewModel.vehicleParts?.observe(viewLifecycleOwner) { parts ->
+            if (parts != null) {
+                if (parts.isNotEmpty()) {
                     Progress_dialog!!.hide()
                 }
             }
@@ -95,12 +116,12 @@ class HomeFragment : Fragment() {
                     requireContext(),
                     "There is no internet connection",
                     Toast.LENGTH_LONG
-                )
-                    .show()
+                ).show()
             }
         }
+
         GetTaskDetails()
-//        Setup_Buisness()
+//      GetEmployeeFromWebApi()
     }
 
     private val onItemClick:(TaskModel) -> Unit = { tsk ->
@@ -147,6 +168,28 @@ class HomeFragment : Fragment() {
         val connect = Common.checkConnectivity(requireContext())
         if (connect) {
             viewModel.GetTaskDetails()
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+
+    private fun GetVehiclePartsFromWebApi() {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.GetVehiclePartsFromWebApi()
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+
+    private fun GetEmployeeFromWebApi() {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.GetEmployeeFromWebApi()
         } else {
             Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
                 .show()

@@ -113,6 +113,7 @@ class VehicleFragment : Fragment() {
 //            VehicleModel(4,"BUS"),
 //            VehicleModel(5,"FORK LIFT")
 //        )
+
     }
 
     private fun GetVehicle() {
@@ -141,8 +142,10 @@ class VehicleFragment : Fragment() {
         Log.i(TAG,"this is task $vehiclee")
         var vehicleName = vehiclee.name.uppercase()
         val heading = vehicleName + " " + movementType
-            val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment(taskid!!,subtaskid!!,vehiclee.name,heading)
-            view?.findNavController()?.navigate(action)
+
+        val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment(taskid!!,subtaskid!!,vehiclee.name,heading)
+        view?.findNavController()?.navigate(action)
+
     }
 
     fun Setup_UI(){

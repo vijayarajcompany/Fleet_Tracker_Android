@@ -3,9 +3,7 @@ package com.pepsidrc.fleet_tracker.viewModel
 import android.util.Log
 import androidx.lifecycle.*
 import com.pepsidrc.fleet_tracker.api.RetrofitInstance
-import com.pepsidrc.fleet_tracker.data.SubTaskTbl
-import com.pepsidrc.fleet_tracker.data.TaskTbl
-import com.pepsidrc.fleet_tracker.data.UserTbl
+import com.pepsidrc.fleet_tracker.data.*
 import com.pepsidrc.fleet_tracker.model.*
 import com.pepsidrc.fleet_tracker.repository.TaskRepository
 import com.pepsidrc.fleet_tracker.repository.UserRepository
@@ -23,6 +21,14 @@ private const val TAG = "HomeViewModel"
         private val _taskdetails: MutableLiveData<List<TaskTbl>>? =   MutableLiveData()
         var task_details: LiveData<List<TaskTbl>>? = null
             get() = _taskdetails
+
+        private val _employeedetails: MutableLiveData<List<EmployeeTbl>>? =   MutableLiveData()
+        var employee_details: LiveData<List<EmployeeTbl>>? = null
+            get() = _employeedetails
+
+        private val _vehicleParts: MutableLiveData<List<VehiclePartTbl>>? =   MutableLiveData()
+        var vehicleParts: LiveData<List<VehiclePartTbl>>? = null
+            get() = _vehicleParts
 
 //        private val _taskdetails: List<TaskTbl>? = null
 //        var task_details: List<TaskTbl>? = null
@@ -83,6 +89,58 @@ private const val TAG = "HomeViewModel"
                 }
             }
         }
+
+        fun GetEmployeeFromWebApi() {
+            viewModelScope.launch {
+                _errorMessage.value = null
+                _isLoading.value = true
+
+                try {
+                    val employeeDetails = taskRepository.GetEmployeeFromWebApi()
+                    if (!employeeDetails.isNullOrEmpty()) {
+                       taskRepository.insertEmployeeToDB(employeeDetails)
+                        _employeedetails?.value = employeeDetails!!
+                    }
+                    _isLoading.value = false
+//                    task_details = tasks
+//                    if (!tasks.isNullOrEmpty()) {
+//                        taskRepository.insertTaskToDB(tskDetails)
+//                    }
+
+                } catch (e: Exception) {
+                    _isLoading.value = false
+                    _errorMessage.value = e.message
+                    Log.e(TAG, "Exception $e")
+
+                } finally {
+                    _isLoading.value = false
+                }
+            }
+        }
+
+
+        fun GetVehiclePartsFromWebApi() {
+            viewModelScope.launch {
+                _errorMessage.value = null
+                _isLoading.value = true
+                try {
+                    val vehicleParts = taskRepository.GetVehiclePartsFromWebApi()
+                    if (!vehicleParts.isNullOrEmpty()) {
+                        taskRepository.insertVehiclePartToDB(vehicleParts)
+                        _vehicleParts?.value = vehicleParts!!
+                    }
+                    _isLoading.value = false
+                } catch (e: Exception) {
+                    _isLoading.value = false
+                    _errorMessage.value = e.message
+                    Log.e(TAG, "Exception $e")
+
+                } finally {
+                    _isLoading.value = false
+                }
+            }
+        }
+
 
 
 

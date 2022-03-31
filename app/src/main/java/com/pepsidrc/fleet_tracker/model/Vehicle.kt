@@ -2,7 +2,6 @@ package com.pepsidrc.fleet_tracker.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.pepsidrc.fleet_tracker.data.Parts
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
@@ -32,6 +31,12 @@ data class LicenseModel (var id: Int, var name: String): Parcelable
 
 @Parcelize
 data class PlateCodeModel (var id: Int, var name: String): Parcelable
+
+//@Parcelize
+//data class FuelCardModel(var id:Int, var name:String): Parcelable
+
+@Parcelize
+data class FuelTankModel(var id:String, var name:String): Parcelable
 
 ////Custom Parcelers
 //

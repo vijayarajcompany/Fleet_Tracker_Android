@@ -6,6 +6,20 @@
     <data>
         <import type="android.view.View"/>
         <variable
+            name="driverError"
+            type="Boolean"/>
+
+        <variable
+            name="plateNoError"
+            type="Boolean"/>
+
+        <variable
+            name="driverContact"
+            type="String"/>
+        <variable
+            name="driverName"
+            type="String"/>
+        <variable
             name="tst"
             type="Integer"/>
         <variable
@@ -14,11 +28,9 @@
         <variable
             name="validEmirates"
             type="Boolean"/>
-
         <variable
             name="validPlateCode"
             type="Boolean"/>
-
         <variable
             name="validDriver"
             type="Boolean"/>
@@ -76,8 +88,6 @@
                         android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
-
                     <!-- Label -->
 
                     <!-- Label -->
@@ -96,7 +106,6 @@
                         android:textColor="@color/colorPepsi_TextForeground"
                         android:textSize="20sp"
                         android:textStyle="bold"
-
                         app:layout_constraintStart_toStartOf="@+id/SubmissionPg_PlateNo_EditText"
                         app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_PlateNo_EditText" />
 
@@ -120,6 +129,7 @@
                         app:layout_constraintTop_toTopOf="@+id/HandOrTakeOverPg_Emirates_TextView" />
 
                     <EditText
+                        android:maxLength="6"
                         android:id="@+id/SubmissionPg_PlateNo_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -130,15 +140,51 @@
                         android:hint="@string/HandOrTakeOverPg_PlateNo_TextView_Txt"
                         android:imeOptions="actionDone"
                         android:inputType="number"
-                        android:maxLength="20"
                         android:padding="20dp"
                         android:textSize="20sp"
 
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
 
+                    <TextView
+                        android:id="@+id/HandOrTakeOverPg_PlateNoError_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/ErrorPlateNo"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TxtError"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="@{plateNoError ?  View.VISIBLE : View.GONE  }"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_PlateNo_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
+
+                    <TextView
+                        android:id="@+id/handOrTakeOverPg_DriverNoError_TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/ErrorDriverNo"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TxtError"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:visibility="@{driverError ?  View.VISIBLE : View.GONE   }"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_IDNo_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_DriverInfo_Button" />
+
                     <EditText
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         android:id="@+id/SubmissionPg_KM_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -147,36 +193,38 @@
                         android:fontFamily="@font/lato_semibold"
                         android:hint="@string/HandOrTakeOverPg_KM_TextView_Txt"
                         android:inputType="number"
-                        android:maxLength="3"
+                        android:maxLength="7"
                         android:padding="20dp"
                         android:textSize="20sp"
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         app:layout_constraintStart_toStartOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
                         app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_Code_RecyclerView" />
 
-                    <EditText
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
-                        android:id="@+id/SubmissionPg_FuelTank_EditText"
+                    <Spinner
+                        android:id="@+id/SubmissionPg_FuelTank_Spinner"
+                        style="@style/SpinnerTheme"
                         android:layout_width="300dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="70dp"
                         android:layout_marginStart="32dp"
-                        android:background="@drawable/grey_border"
+                        android:dropDownVerticalOffset="35dp"
                         android:fontFamily="@font/lato_semibold"
-                        android:hint="@string/HandOrTakeOverPg_FuelTank_TextView_Txt"
-                        android:inputType="text"
                         android:maxLength="20"
                         android:padding="20dp"
-
-                        android:textSize="20sp"
+                        android:popupBackground="#dee3de"
+                        android:spinnerMode="dropdown"
+                        android:textAlignment="center"
+                        android:textSize="45sp"
+                        android:textStyle="bold"
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         app:layout_constraintStart_toEndOf="@+id/SubmissionPg_KM_EditText"
-                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_KM_EditText" />
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_KM_EditText"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:visibility="@{validPlatNo ? View.VISIBLE  : View.GONE }"
                         android:id="@+id/HandorTakeOverPg_Emirates_RecyclerView"
-
                         android:layout_width="300dp"
                         android:layout_height="170dp"
-
                         android:layout_marginTop="8dp"
                         android:background="@drawable/grey_border_greybackground"
                         android:fadeScrollbars="false"
@@ -186,7 +234,6 @@
                         android:scrollbars="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toStartOf="@+id/HandOrTakeOverPg_Emirates_TextView"
-
                         app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_Emirates_TextView"
                         app:spanCount="10"
                         tools:itemCount="10"
@@ -204,18 +251,14 @@
                         android:padding="5dp"
                         android:scrollbarThumbVertical="@color/white"
                         android:scrollbars="vertical"
-
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toEndOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
                         app:layout_constraintTop_toTopOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
                         app:spanCount="10"
                         tools:itemCount="10"
-                        tools:listitem="@layout/recycler_row_code" />
+                        tools:listitem="@layout/recycler_row_code"/>
 
                     <Button
-
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
-
                         android:id="@+id/HandorTakeOverPg_Date_Button"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -225,21 +268,20 @@
                         android:drawableEnd="@drawable/down_arrow_black"
                         android:padding="5dp"
                         android:text="@string/HandOrTakeOverPg_Date_TextView_Txt"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="#757575"
                         android:textSize="18sp"
                         android:textStyle="bold"
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         app:layout_constraintStart_toStartOf="@+id/SubmissionPg_KM_EditText"
-                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_FuelTank_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_KM_EditText"
                         tools:ignore="SpeakableTextPresentCheck" />
 
 
                     <!-- Label -->
 
                     <Button
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
-
                         android:id="@+id/HandorTakeOverPg_Time_Button"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -249,18 +291,18 @@
                         android:background="@color/colorDate"
                         android:drawableEnd="@drawable/down_arrow_black"
                         android:text="@string/HandOrTakeOverPg_Time_TextView_Txt"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="#757575"
                         android:textSize="18sp"
                         android:textStyle="bold"
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         app:layout_constraintStart_toEndOf="@+id/HandorTakeOverPg_Date_Button"
                         app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_KM_EditText"
                         tools:ignore="SpeakableTextPresentCheck" />
 
                     <TextView
                         android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
-
                         android:id="@+id/HandorTakeOverPg_DriverInfo_Button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -275,7 +317,6 @@
                         android:textColor="@color/colorPepsi_ButtonBackground"
                         android:textSize="28sp"
                         android:textStyle="bold"
-
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_Date_Button" />
 
@@ -298,30 +339,29 @@
                         app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_DriverInfo_Button" />
 
                     <EditText
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
-
+                        android:maxLength="6"
                         android:id="@+id/SubmissionPg_DriverName_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
                         android:background="@color/colorDate"
                         android:clickable="false"
                         android:editable="false"
                         android:fontFamily="@font/lato_semibold"
                         android:hint="@string/HandOrTakeOverPg_DriverName_TextView_Hint"
                         android:inputType="none"
-                        android:maxLength="20"
                         android:padding="20dp"
+                        android:text="@{driverName}"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_IDNo_EditText"
-                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_IDNo_EditText" />
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
+                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_IDNo_EditText"
+                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_IDNo_EditText" />
 
                     <EditText
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
                         android:id="@+id/SubmissionPg_ContactNo_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="24dp"
                         android:background="@color/colorDate"
                         android:clickable="false"
                         android:editable="false"
@@ -330,9 +370,11 @@
                         android:inputType="none"
                         android:maxLength="20"
                         android:padding="20dp"
+                        android:text="@{driverContact}"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="@+id/SubmissionPg_IDNo_EditText"
-                        app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_DriverName_EditText" />
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_DriverName_EditText"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_DriverName_EditText" />
 
                     <LinearLayout
                         android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
