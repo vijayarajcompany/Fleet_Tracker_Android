@@ -18,6 +18,8 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewM
         }
     }
 
+
+
     private val _vehicle: MutableLiveData<List<VehicleTbl>>? =   MutableLiveData()
     var vehicle: LiveData<List<VehicleTbl>>? = null
         get() = _vehicle
@@ -72,7 +74,27 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewM
         }
     }
 
+    fun GetVehicleDetailFromWebApi() {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val vehicleDetailList = vehicleRepository.GetVehicleDetailFromWebApi()
+                if (!vehicleDetailList.isNullOrEmpty()) {
+                    vehicleRepository.insertVehicleDetailToDB(vehicleDetailList)
+//                    _vehicle?.value = vehicleList!!
+                }
+                _isLoading.value = false
+            } catch (e: Exception) {
+                _isLoading.value = false
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
 
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 
 
 

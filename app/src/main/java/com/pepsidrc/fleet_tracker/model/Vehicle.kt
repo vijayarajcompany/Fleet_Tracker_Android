@@ -24,7 +24,10 @@ data class VehicleModel (var name: String,
 data class VehiclePartsModel (var id: Int, var name: String): Parcelable
 
 @Parcelize
-data class EmiratesModel (var id: Int, var name: String): Parcelable
+data class EmiratesModel (var id: Int, var name: String, var code: String): Parcelable
+
+
+
 
 @Parcelize
 data class LicenseModel (var id: Int, var name: String): Parcelable

@@ -101,9 +101,21 @@ class HomeFragment : Fragment() {
             }
         }
 
+
+//        viewModel.emirates?.observe(viewLifecycleOwner) { emirates ->
+//            if (emirates != null) {
+//                if (emirates.isNotEmpty()) {
+//                    GetEmiratesFromWebApi()
+////                    Progress_dialog!!.hide()
+//                }
+//            }
+//        }
+
+
         viewModel.vehicleParts?.observe(viewLifecycleOwner) { parts ->
             if (parts != null) {
                 if (parts.isNotEmpty()) {
+                    GetEmiratesFromWebApi()
                     Progress_dialog!!.hide()
                 }
             }
@@ -184,6 +196,17 @@ class HomeFragment : Fragment() {
                 .show()
         }
     }
+
+    private fun GetEmiratesFromWebApi() {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.GetEmiratesFromWebApi()
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
 
 
     private fun GetEmployeeFromWebApi() {

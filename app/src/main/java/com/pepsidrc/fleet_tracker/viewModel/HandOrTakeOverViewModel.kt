@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.pepsidrc.fleet_tracker.data.EmployeeTbl
 import com.pepsidrc.fleet_tracker.data.SubTaskTbl
+import com.pepsidrc.fleet_tracker.data.TaskTbl
+import com.pepsidrc.fleet_tracker.model.EmiratesModel
 import com.pepsidrc.fleet_tracker.model.EmployeeModel
 import com.pepsidrc.fleet_tracker.model.SubTaskModel
 import com.pepsidrc.fleet_tracker.repository.HandorTakeOverRepository
@@ -27,6 +29,18 @@ class HandOrTakeOverViewModel(private val handorTakeOverRepository: HandorTakeOv
     private val _empdetails: MutableLiveData<EmployeeModel?> =  MutableLiveData()
     var employee_details: MutableLiveData<EmployeeModel?>? = null
         get() = _empdetails
+
+    private val _emirates: MutableLiveData<List<EmiratesModel>?>? =  MutableLiveData()
+    var emirates: MutableLiveData<List<EmiratesModel>?>? = null
+        get() = _emirates
+
+    private val _plateCode: MutableLiveData<List<String>?>? =  MutableLiveData()
+    var plateCode: MutableLiveData<List<String>?>? = null
+        get() = _plateCode
+
+    private val _validPlatNo: MutableLiveData<Int>? =  MutableLiveData()
+    var ValidPlateNo: MutableLiveData<Int>? = null
+        get() = _validPlatNo
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
@@ -60,9 +74,43 @@ class HandOrTakeOverViewModel(private val handorTakeOverRepository: HandorTakeOv
          }
     }
 
+    fun getEmiratesFromDB(plateNo:Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
 
+            var emirates: List<EmiratesModel>?
 
+            try {
+                _isLoading.value = false
+                emirates = handorTakeOverRepository.getEmiratesFromDB(plateNo)
+                _emirates?.value = emirates
+                _validPlatNo?.value = plateNo
 
+            } catch (e: Exception) {
+                _isLoading.value = false
+                _errorEmpMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            }
 
+        }
+    }
+
+    fun getPlateCodeForPlateNo_EmirateFromDB(plateNo:Int, emirateid:Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            var plateCode: List<String>?
+            try {
+                _isLoading.value = false
+                plateCode = handorTakeOverRepository.getPlatecodeFromDB(plateNo,emirateid)
+                _plateCode?.value = plateCode
+            } catch (e: Exception) {
+                _isLoading.value = false
+                _errorEmpMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            }
+        }
+    }
 
 }

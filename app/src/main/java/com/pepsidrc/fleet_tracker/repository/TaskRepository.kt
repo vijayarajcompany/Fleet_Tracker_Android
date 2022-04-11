@@ -31,6 +31,15 @@ class TaskRepository (application: Application, contxt: Context) {
         }
     }
 
+    suspend fun insertEmiratesToDB(emirates: List<EmiratesTbl>) = withContext(Dispatchers.IO) {
+        try {
+            taskDao.deleteAllEmirates()
+            taskDao.insertEmirate(emirates)
+        } catch (e: Exception) {
+            var errorMessage = e.message
+        }
+    }
+
     suspend fun insertTaskToDB(tsks: List<TaskTbl>) = withContext(Dispatchers.IO) {
 
         try {
@@ -163,5 +172,25 @@ class TaskRepository (application: Application, contxt: Context) {
             }
             return emptyList()
         }
+
+    suspend fun GetEmiratesFromWebApi(): List<EmiratesTbl>? {
+        val response = RetrofitInstance.api.getEmirates()
+        response.isSuccessful.let {
+            when (response.code()) {
+                400 -> {
+                    Toast.makeText(cntxt, "Please contact administrator", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                500 -> {
+                    Toast.makeText(cntxt, "Internal Server Error", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+
+                    return response.body()
+                }
+            }
+        }
+        return emptyList()
+    }
 
 }

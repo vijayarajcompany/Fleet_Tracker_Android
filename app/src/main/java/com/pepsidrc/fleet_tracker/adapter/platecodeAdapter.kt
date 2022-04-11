@@ -8,9 +8,9 @@ import com.pepsidrc.fleet_tracker.databinding.RecyclerRowCodeBinding
 import com.pepsidrc.fleet_tracker.model.PlateCodeModel
 
 class PlateCodeAdapter(
-    private val code: List<PlateCodeModel>,
+    private val code: List<String>,
     var context: Context,
-    private val onItemCodeClick: (PlateCodeModel) -> Unit
+    private val onItemCodeClick: (String) -> Unit
 
 ): RecyclerView.Adapter<PlateCodeAdapter.ViewHolder>()
 {
@@ -26,7 +26,7 @@ class PlateCodeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pcode = code[position]
         with(holder.binding){
-            HandOrTakeOverPgPlateCodeLabel.text = pcode.name
+            HandOrTakeOverPgPlateCodeLabel.text = pcode.toString()
 //            HomePgTaskLabel.setOnClickListener{
 //                onItemClick(task)
 //            }

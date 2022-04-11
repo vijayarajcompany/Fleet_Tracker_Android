@@ -21,11 +21,11 @@
         <entry key="app/src/main/res/layout/dialog_progress_bar_large.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_review_distribution.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_review_submission.xml" value="0.25341796875" />
-        <entry key="app/src/main/res/layout/dialog_review_takehandover.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/dialog_review_takehandover.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_signout.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_time.xml" value="0.224609375" />
         <entry key="app/src/main/res/layout/dialog_validate_hand_or_take_over.xml" value="0.2743055555555556" />
-        <entry key="app/src/main/res/layout/fragment_distribution.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_distribution.xml" value="0.41255961844197137" />
         <entry key="app/src/main/res/layout/fragment_hand_or_take_over.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.5" />

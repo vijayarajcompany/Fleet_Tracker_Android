@@ -103,7 +103,7 @@ class VehicleFragment : Fragment() {
         }
 
         GetVehicle()
-
+        GetVehicleDetailFromWebApi()
 //        viewModel = ViewModelProvider(this).get(VehicleViewModel::class.java)
 //
 //        val _vehicle:List<VehicleModel> = mutableListOf(
@@ -120,6 +120,17 @@ class VehicleFragment : Fragment() {
         val connect = Common.checkConnectivity(requireContext())
         if (connect) {
             viewModel.GetVehicles()
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+
+    private fun GetVehicleDetailFromWebApi() {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.GetVehicleDetailFromWebApi()
         } else {
             Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
                 .show()

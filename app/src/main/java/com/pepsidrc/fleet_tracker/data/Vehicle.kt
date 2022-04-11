@@ -16,9 +16,17 @@ data class VehicleTbl(
     var part: List<Int>
 )
 
+@Entity(tableName = "Tbl_VehicleDetail")
+data class VehicleDetailTbl(
+    @PrimaryKey
+    var id: Int,
+    var plate_no: Int,
+    var emirates_id: Int,
+    var platecode: String
+)
+
+
 //data class Parts(var id:Int)
-
-
 @Entity(tableName = "Tbl_VehiclePart")
 data class VehiclePartTbl(
     @PrimaryKey
@@ -26,6 +34,13 @@ data class VehiclePartTbl(
     var name: String
 )
 
+@Entity(tableName = "Tbl_Emirates")
+data class EmiratesTbl(
+    @PrimaryKey
+    var id: Int,
+    var name: String,
+    var code: String
+)
 
 //@JsonClass(generateAdapter = true)
 //@AutoGenerateConverter(using = ConverterType.MOSHI)

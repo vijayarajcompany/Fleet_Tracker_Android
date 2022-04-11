@@ -48,9 +48,11 @@
     <string name="HandOrTakeOverPg_Date_TextView_Txt">Date</string>
     <string name="HandOrTakeOverPg_Time_TextView_Txt">Time</string>
     <string name="HandOrTakeOverPg_IDNo_TextView_Txt">ID Number</string>
-    <string name="HandOrTakeOverPg_DriverName_TextView_Txt">Driver\'s\nName</string>
+<!--    <string name="HandOrTakeOverPg_DriverName_TextView_Txt">Driver\'s\nName</string>-->
+    <string name="HandOrTakeOverPg_DriverName_TextView_Txt">Driver\'s Name</string>
     <string name="HandOrTakeOverPg_DriverName_TextView_Hint">Driver\'s Name</string>
-    <string name="HandOrTakeOverPg_ContactNo_TextView_Txt">Contact\nNumber</string>
+<!--    <string name="HandOrTakeOverPg_ContactNo_TextView_Txt">Contact\nNumber</string>-->
+    <string name="HandOrTakeOverPg_ContactNo_TextView_Txt">Contact Number</string>
     <string name="HandOrTakeOverPg_ContactNo_TextView_Hint">Contact Number</string>
 
 

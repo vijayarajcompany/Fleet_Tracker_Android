@@ -1,43 +1,42 @@
 package com.pepsidrc.fleet_tracker.fragment
 
+
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.pepsidrc.fleet_tracker.R
 import com.pepsidrc.fleet_tracker.activity.MainActivity
 import com.pepsidrc.fleet_tracker.adapter.EmiratesAdapter
+import com.pepsidrc.fleet_tracker.adapter.FuelTankArrayAdapter
 import com.pepsidrc.fleet_tracker.adapter.PlateCodeAdapter
+import com.pepsidrc.fleet_tracker.common.Common
 import com.pepsidrc.fleet_tracker.common.Utility.Companion.hideKeyboard
 import com.pepsidrc.fleet_tracker.databinding.FragmentHandOrTakeOverBinding
 import com.pepsidrc.fleet_tracker.model.EmiratesModel
-import com.pepsidrc.fleet_tracker.model.PlateCodeModel
+import com.pepsidrc.fleet_tracker.model.FuelTankModel
+import com.pepsidrc.fleet_tracker.repository.HandorTakeOverRepository
 import com.pepsidrc.fleet_tracker.viewModel.HandOrTakeOverViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.appcompat.app.AlertDialog
-import androidx.databinding.DataBindingUtil
-import com.pepsidrc.fleet_tracker.R
-import com.pepsidrc.fleet_tracker.adapter.FuelTankArrayAdapter
-import com.pepsidrc.fleet_tracker.common.Common
-import com.pepsidrc.fleet_tracker.model.FuelTankModel
-import com.pepsidrc.fleet_tracker.repository.HandorTakeOverRepository
 
-
-import android.view.animation.AnimationUtils
 
 private const val TAG = "HandOrTakeOverFragment"
 
@@ -70,6 +69,7 @@ class HandOrTakeOverFragment : Fragment() {
     private var strplateNumber:String? = null
     private var stremirates:String? = null
     private var strPlatecode:String? = null
+    private var strSelectedEmirates:String? = null
     private var strKM:String? = null
     private var strFuelTank:String? = null
     private var strDriverID:String? = null
@@ -77,7 +77,7 @@ class HandOrTakeOverFragment : Fragment() {
     private var strContactNo:String? = null
     private var strSelectedDate:String? = null
     private var strSelectedTime:String? = null
-
+    private var lastValidPlateNoEntered:Int? = null
 
     var currDate: Date = Date()
 
@@ -85,20 +85,15 @@ class HandOrTakeOverFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        //Data Binding for activity
-//        binding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_hand_or_take_over)
         //Data Binding
          binding = DataBindingUtil.inflate(inflater,R.layout.fragment_hand_or_take_over,container,false)
          val view = binding.root
-
-        //        binding.HandOrTakeOverPgContinueButton.setOnClickListener {
-        //            openDistributionPage()
-        //        }
         taskid = args.taskid
         subtaskid = args.subtaskid
         vehiclename = args.vehicleName
         heading = args.heading
+
+        clearControls()
         binding.HandOrTakeOverPgContinueButton.setOnClickListener {
             hideKeyboard()
 
@@ -123,39 +118,18 @@ class HandOrTakeOverFragment : Fragment() {
 
         }
         setup()
-//        binding.SubmissionPgPlateNoEditText.setText("")
-        with(binding) {
-//            validPlatNo = true
-//            validDriver = true
-            plateNoError = false
-            driverError = false
-        }
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-//        viewModel = ViewModelProvider(this)[HandOrTakeOverViewModel::class.java]
-
         handorTakeOverRepository = activity?.let { HandorTakeOverRepository(it.application,requireContext()) }!!
         val factory = HandOrTakeOverViewModel.Factory(handorTakeOverRepository) // Factory
         viewModel = ViewModelProvider(this, factory)[HandOrTakeOverViewModel::class.java] // ViewModel
-
         setupFuelTank()
-
-        setupEmiratesPlateCode()
-
         binding.SubmissionPgPlateNoEditText.setText("")
-
         modelObserver()
-
-        with(binding) {
-//            validPlatNo = true
-            plateNoError = false
-            driverError = false
-        }
-
+        clearControls()
     }
 
     fun setup() {
@@ -173,7 +147,9 @@ class HandOrTakeOverFragment : Fragment() {
         val date = getCurrentDateTime()
 //      val dateInString = date.toString("yyyy/MM/dd HH:mm:ss")
         val dateInString = date.toString("dd-MM-yyyy")
-        val TimeInString = date.toString("HH:mm")
+//        val TimeInString = date.toString("HH:mm")
+        val TimeInString = date.toString("HH:mm aa")
+
 
         (activity as MainActivity).setHardwareBackPressedStatus(true)
         (activity as MainActivity).ChangeToolBarText(heading!!)
@@ -201,16 +177,25 @@ class HandOrTakeOverFragment : Fragment() {
                 }
                 override fun onTextChanged(s: CharSequence, start: Int,
                                            before: Int, count: Int) {
-                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+//                    val isEmpty = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+//                    binding.validPlatNo = isEmpty
+//                    if (isEmpty){
+//                        getEmiratesForPlateNo()
+//                    }
+
                 }
             })
+
             SubmissionPgPlateNoEditText.setOnEditorActionListener { v, actionId, event ->
                 if(actionId == EditorInfo.IME_ACTION_DONE)
                 {
                     hideKeyboard()
 //                  showValidationDialog("Plate Number")
                     printMsg("IME_ACTION_DONE")
-                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+                    validEmirates = false
+                    getEmiratesForPlateNoFromDB(false,0)
+
+//                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
                     //connect the data with binding
 //                    binding.validPlatNo = binding.validPlatNo != true
 //                    binding.validEmirates = binding.validEmirates != true
@@ -272,23 +257,45 @@ class HandOrTakeOverFragment : Fragment() {
         this.selectedTank = fuelcard
     }
 
-    private val onItemEmiratesClick: (EmiratesModel) -> Unit = { tsk ->
-        Log.i(TAG, "this is task $tsk")
+    private val onItemEmiratesClick: (EmiratesModel) -> Unit = { emirate ->
+        Log.i(TAG, "this is task $emirate")
 //        val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment()
 //        view?.findNavController()?.navigate(action)
 //        binding.validPlatNo = true
         binding.validEmirates = true
         binding.validPlateCode = false
-        binding.validDriver = false
+//        binding.validPlateCode = true
+        strSelectedEmirates = emirate.name
+        getEmiratesForPlateNoFromDB(true,emirate.id)
+
     }
 
-    private val onItemCodeClick: (PlateCodeModel) -> Unit = { tsk ->
+    private val onItemCodeClick: (String) -> Unit = { tsk ->
         Log.i(TAG, "this is task $tsk")
 
+        val date = getCurrentDateTime()
+        val dateInString = date.toString("dd-MM-yyyy")
+        val TimeInString = date.toString("HH:mm aa")
+        binding.HandorTakeOverPgDateButton.text = dateInString
+        binding.HandorTakeOverPgTimeButton.text = TimeInString
+
         binding.validPlateCode = true
+        binding.SubmissionPgIDNoEditText.setText("")
+        binding.SubmissionPgKMEditText.setText("")
+        binding.SubmissionPgFuelTankSpinner.setSelection(0)
         binding.validDriver = false
+
+        getEmiratesForPlateNoFromDB(true,0)
+
+
     }
 
+//    private val onItemCodeClick: (PlateCodeModel) -> Unit = { tsk ->
+//        Log.i(TAG, "this is task $tsk")
+//
+//        binding.validPlateCode = true
+//        binding.validDriver = false
+//    }
     private fun clearControls()
     {
         with(binding){
@@ -300,12 +307,19 @@ class HandOrTakeOverFragment : Fragment() {
             SubmissionPgIDNoEditText.setText("")
         }
 
+        binding.plateNoError      = false
+        binding.validPlatNo       = false
+        binding.validEmirates     = false
+        binding.validPlateCode    = false
+        binding.driverError       = false
+
     }
+
+
 
     private fun openDistributionPage() {
         currentButtonType = ButtonType.NONE
         clearControls()
-
 
         val action = HandOrTakeOverFragmentDirections.actionHandOrTakeOverFragmentToDistributionFragment(heading!!)
         view?.findNavController()?.navigate(action)
@@ -341,6 +355,38 @@ fun printMsg(message:String)
 
     //OBSERVER
     private fun modelObserver() {
+
+        viewModel.ValidPlateNo?.observe(viewLifecycleOwner) { plateno ->
+                lastValidPlateNoEntered = plateno
+        }
+
+        viewModel.plateCode?.observe(viewLifecycleOwner) { plateCode ->
+
+            if(!plateCode.isNullOrEmpty()){
+                binding.HandorTakeOverPgCodeRecyclerView.adapter = activity?.let { PlateCodeAdapter(plateCode, it.applicationContext, onItemCodeClick) }
+
+            }
+
+
+        }
+
+        viewModel.emirates?.observe(viewLifecycleOwner) { emirates ->
+            if(!emirates.isNullOrEmpty()){
+                binding.plateNoError = false
+                binding.validPlatNo = true
+
+                binding.HandorTakeOverPgEmiratesRecyclerView.adapter =
+                    activity?.let { EmiratesAdapter(emirates, it.applicationContext, onItemEmiratesClick) }
+            }
+            else
+            {
+                binding.plateNoError = true
+                binding.validEmirates = false
+                binding.validPlatNo = false
+                binding.HandOrTakeOverPgPlateNoErrorTextView.startAnimation(regshake)
+            }
+        }
+
         viewModel.employee_details?.observe(viewLifecycleOwner) { empdetails ->
 
             if (empdetails != null) {
@@ -401,6 +447,8 @@ fun printMsg(message:String)
 
     }
 
+
+
     //DIALOG
     private fun showReview() {
         currentButtonType = ButtonType.NONE
@@ -436,6 +484,8 @@ fun printMsg(message:String)
 //        private var strDriverID:String? = null
 //        private var strDriverName:String? = null
 //        private var strContactNo:String? = null
+
+
         with(binding){
 
             strplateNumber = SubmissionPgPlateNoEditText.text.toString()
@@ -453,14 +503,14 @@ fun printMsg(message:String)
         reviewHeading.text = heading!!
         reviewPlatNo.text = strplateNumber!!
         reviewKM.text = strKM!!
-        reviewFuelTank.text = selectedTank?.id.toString()
+        reviewFuelTank.text = selectedTank?.name
         reviewDate.text = strSelectedDate
         reviewTime.text = strSelectedTime
         reviewDriverID.text = strDriverID!!
 
         reviewDriverName.text = strDriverName!!
         reviewContactNo.text = strContactNo!!
-        reviewEmirates.text = heading!!
+        reviewEmirates.text = strSelectedEmirates!!
         reviewPlateCode.text = heading!!
 
 //        inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView).setText("hello vijayarajjjjjjjjjjj")
@@ -552,7 +602,16 @@ fun printMsg(message:String)
 
         mTimePicker = TimePickerDialog(requireContext(), object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                binding.HandorTakeOverPgTimeButton.text = String.format("%d : %d", hourOfDay, minute)
+
+                val AM_PM: String
+                if (hourOfDay < 12) {
+                    AM_PM = "AM"
+                } else {
+                    AM_PM = "PM"
+                }
+
+                binding.HandorTakeOverPgTimeButton.text = String.format("%d : %d %s", hourOfDay, minute,AM_PM)
+
             }
         }, hour, minute, false)
 
@@ -608,22 +667,26 @@ fun printMsg(message:String)
 
     private fun setupEmiratesPlateCode()
     {
-        val tsk1 = EmiratesModel(33, "Abu Dhabi")
-        val tsk2 = EmiratesModel(33, "Ajman")
-        val tsk3 = EmiratesModel(33, "Dubai")
-        val tsk4 = EmiratesModel(33, "Sharjah")
-        val _emirates: List<EmiratesModel> = listOf(tsk1, tsk2, tsk3, tsk4)
 
-        binding.HandorTakeOverPgEmiratesRecyclerView.adapter =
-            activity?.let { EmiratesAdapter(_emirates, it.applicationContext, onItemEmiratesClick) }
+//        val tsk1 = EmiratesModel(33, "Abu Dhabi","Sharjah")
+//        val tsk2 = EmiratesModel(33, "Ajman","Sharjah")
+//        val tsk3 = EmiratesModel(33, "Dubai","Sharjah")
+//        val tsk4 = EmiratesModel(33,"Sharjah","Sharjah")
+//        val _emirates: List<EmiratesModel> = listOf(tsk1, tsk2, tsk3, tsk4)
 
 
-        val tsk11 = PlateCodeModel(33, "L")
-        val tsk21 = PlateCodeModel(33, "H")
-        val tsk31 = PlateCodeModel(33, "B")
-        val tsk41 = PlateCodeModel(33, "C")
-        val _code: List<PlateCodeModel> = listOf(tsk11, tsk21, tsk31, tsk41)
-        binding.HandorTakeOverPgCodeRecyclerView.adapter = activity?.let { PlateCodeAdapter(_code, it.applicationContext, onItemCodeClick) }
+
+
+//        binding.HandorTakeOverPgEmiratesRecyclerView.adapter =
+//            activity?.let { EmiratesAdapter(_emirates, it.applicationContext, onItemEmiratesClick) }
+
+
+//        val tsk11 = PlateCodeModel(33, "L")
+//        val tsk21 = PlateCodeModel(33, "H")
+//        val tsk31 = PlateCodeModel(33, "B")
+//        val tsk41 = PlateCodeModel(33, "C")
+//        val _code: List<PlateCodeModel> = listOf(tsk11, tsk21, tsk31, tsk41)
+//        binding.HandorTakeOverPgCodeRecyclerView.adapter = activity?.let { PlateCodeAdapter(_code, it.applicationContext, onItemCodeClick) }
 
 
     }
@@ -645,10 +708,84 @@ fun printMsg(message:String)
     }
 
 
+
+
+    private fun getEmiratesForPlateNoFromDB(isRecycleClicked:Boolean, emirateid: Int)
+    {
+        binding.plateNoError      = false
+        binding.validPlatNo       = false
+        val isEmpty = binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+        binding.validPlatNo = !isEmpty
+
+        if (!isEmpty){
+            //binding.validPlatNo = false
+            val plateno = binding.SubmissionPgPlateNoEditText.text.toString().trim().toInt()
+            if(isRecycleClicked && lastValidPlateNoEntered == plateno){
+//                  HideFromPlateCodeControl()
+                    getPlateCodeForPlateNo_EmirateFromDB(plateno,emirateid)
+            }
+            else if(isRecycleClicked && lastValidPlateNoEntered != plateno){
+                getEmiratesFromDB(plateno)            }
+            else{
+//              HideFromEmiratesControl()
+                getEmiratesFromDB(plateno)
+            }
+        }
+        else
+        {
+            binding.plateNoError = true
+            binding.HandOrTakeOverPgPlateNoErrorTextView.startAnimation(regshake)
+        }
+
+
+
+
+    }
+
+    private fun getPlateCodeForPlateNo_EmirateFromDB(plateno:Int,emirateid:Int)
+    {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.getPlateCodeForPlateNo_EmirateFromDB(plateno,emirateid)
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+
+//        binding.plateNoError = false
+//        val isEmpty = binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
+//        binding.validPlatNo = !isEmpty
+//
+//        if (!isEmpty){
+//            binding.validPlatNo = false
+//            getEmiratesFromDB(binding.SubmissionPgPlateNoEditText.text.toString().trim().toInt())
+//        }
+//        else
+//        {
+//
+//            binding.plateNoError = true
+//            binding.HandOrTakeOverPgPlateNoErrorTextView.startAnimation(regshake)
+//        }
+
+
+
+
+    }
+
     private fun  getEmployeeFromDB(empID:Int) {
         val connect = Common.checkConnectivity(requireContext())
         if (connect) {
             viewModel.getEmployeeFromDB(empID)
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    private fun  getEmiratesFromDB(PlateNo:Int) {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.getEmiratesFromDB(PlateNo)
         } else {
             Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
                 .show()

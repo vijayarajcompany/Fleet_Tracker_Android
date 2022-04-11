@@ -19,6 +19,8 @@ interface TaskDao {
     @Insert
     fun insertVehiclePart(parts: List<VehiclePartTbl>)
 
+    @Insert
+    fun insertEmirate(parts: List<EmiratesTbl>)
 
     @Query("SELECT * FROM Tbl_Task")
     fun getAllTasks(): List<TaskModel>
@@ -31,8 +33,6 @@ interface TaskDao {
 
     @Query("SELECT id, name FROM Tbl_VehiclePart WHERE id IN (SELECT id FROM Tbl_Vehicle WHERE LOWER(name) = :name)")
     fun getVehiclePart(name:String): List<VehiclePartsModel>
-//    @Query("SELECT * FROM Tbl_SubTask")
-//    fun getAllSubTasks(): List<SubTaskTbl>
 
     @Query("DELETE  FROM Tbl_Task")
     fun deleteAllTasks()
@@ -42,5 +42,8 @@ interface TaskDao {
 
     @Query("DELETE  FROM Tbl_VehiclePart")
     fun deleteAllParts()
+
+    @Query("DELETE  FROM Tbl_Emirates")
+    fun deleteAllEmirates()
 
 }

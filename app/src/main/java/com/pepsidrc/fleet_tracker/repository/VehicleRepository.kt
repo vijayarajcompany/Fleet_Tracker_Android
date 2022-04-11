@@ -4,10 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.widget.Toast
 import com.pepsidrc.fleet_tracker.api.RetrofitInstance
-import com.pepsidrc.fleet_tracker.data.FleetDatabase
-import com.pepsidrc.fleet_tracker.data.TaskTbl
-import com.pepsidrc.fleet_tracker.data.VehicleTbl
-import com.pepsidrc.fleet_tracker.data.VehiclesDao
+import com.pepsidrc.fleet_tracker.data.*
 import com.pepsidrc.fleet_tracker.model.TaskModel
 import com.pepsidrc.fleet_tracker.model.VehicleModel
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +25,16 @@ class VehicleRepository (application: Application, contxt: Context) {
         try {
             vehicleDao.deleteAllVehicle()
             vehicleDao.insertVehicle(vehicles)
+        } catch (e: Exception) {
+            var errorMessage = e.message
+        }
+    }
+
+    suspend fun insertVehicleDetailToDB(vehiclesDetail: List<VehicleDetailTbl>) = withContext(Dispatchers.IO) {
+        try {
+            vehicleDao.deleteAllVehicleDetail()
+            vehicleDao.insertVehicleDetail(vehiclesDetail)
+
         } catch (e: Exception) {
             var errorMessage = e.message
         }
@@ -57,5 +64,25 @@ class VehicleRepository (application: Application, contxt: Context) {
         }
         return emptyList()
     }
+
+    suspend fun GetVehicleDetailFromWebApi(): List<VehicleDetailTbl>? {
+        val response =  RetrofitInstance.api.getVehiclesDetails()
+        response.isSuccessful.let {
+            when (response.code()) {
+                400 -> {
+                    Toast.makeText(cntxt, "Please contact administrator", Toast.LENGTH_SHORT).show()
+                }
+                500 -> {
+                    Toast.makeText(cntxt, "Internal Server Error", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+
+                    return response.body()
+                }
+            }
+        }
+        return emptyList()
+    }
+
 
 }

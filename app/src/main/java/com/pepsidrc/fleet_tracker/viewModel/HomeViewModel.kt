@@ -30,6 +30,10 @@ private const val TAG = "HomeViewModel"
         var vehicleParts: LiveData<List<VehiclePartTbl>>? = null
             get() = _vehicleParts
 
+//        private val _emirates: MutableLiveData<List<EmiratesTbl>>? =   MutableLiveData()
+//        var emirates: LiveData<List<EmiratesTbl>>? = null
+//            get() = _emirates
+
 //        private val _taskdetails: List<TaskTbl>? = null
 //        var task_details: List<TaskTbl>? = null
 //            get() = _taskdetails
@@ -118,7 +122,6 @@ private const val TAG = "HomeViewModel"
             }
         }
 
-
         fun GetVehiclePartsFromWebApi() {
             viewModelScope.launch {
                 _errorMessage.value = null
@@ -141,6 +144,27 @@ private const val TAG = "HomeViewModel"
             }
         }
 
+        fun GetEmiratesFromWebApi() {
+            viewModelScope.launch {
+                _errorMessage.value = null
+                _isLoading.value = true
+                try {
+                    val emirates = taskRepository.GetEmiratesFromWebApi()
+                    if (!emirates.isNullOrEmpty()) {
+                        taskRepository.insertEmiratesToDB(emirates)
+//                        _emirates?.value = emirates!!
+                    }
+                    _isLoading.value = false
+                } catch (e: Exception) {
+                    _isLoading.value = false
+                    _errorMessage.value = e.message
+                    Log.e(TAG, "Exception $e")
+
+                } finally {
+                    _isLoading.value = false
+                }
+            }
+        }
 
 
 

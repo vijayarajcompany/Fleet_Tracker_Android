@@ -147,6 +147,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
 
                     <TextView
+                        android:visibility="@{plateNoError ?  View.VISIBLE : View.GONE  }"
                         android:id="@+id/HandOrTakeOverPg_PlateNoError_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -159,9 +160,8 @@
                         android:text="@string/ErrorPlateNo"
                         android:textAlignment="center"
                         android:textColor="@color/colorPepsi_TxtError"
-                        android:textSize="20sp"
+                        android:textSize="21sp"
                         android:textStyle="bold"
-                        android:visibility="@{plateNoError ?  View.VISIBLE : View.GONE  }"
                         app:layout_constraintStart_toEndOf="@+id/SubmissionPg_PlateNo_EditText"
                         app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
 
@@ -193,7 +193,7 @@
                         android:fontFamily="@font/lato_semibold"
                         android:hint="@string/HandOrTakeOverPg_KM_TextView_Txt"
                         android:inputType="number"
-                        android:maxLength="7"
+                        android:maxLength="6"
                         android:padding="20dp"
                         android:textSize="20sp"
                         android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
@@ -322,7 +322,6 @@
 
 
                     <EditText
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         android:id="@+id/SubmissionPg_IDNo_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -332,14 +331,14 @@
                         android:hint="@string/HandOrTakeOverPg_IDNo_TextView_Txt"
                         android:imeOptions="actionDone"
                         android:inputType="number"
-                        android:maxLength="20"
+                        android:maxLength="6"
                         android:padding="20dp"
                         android:textSize="20sp"
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode) ? View.VISIBLE : View.GONE }"
                         app:layout_constraintStart_toStartOf="@+id/HandorTakeOverPg_Date_Button"
                         app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_DriverInfo_Button" />
 
                     <EditText
-                        android:maxLength="6"
                         android:id="@+id/SubmissionPg_DriverName_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -350,6 +349,7 @@
                         android:fontFamily="@font/lato_semibold"
                         android:hint="@string/HandOrTakeOverPg_DriverName_TextView_Hint"
                         android:inputType="none"
+                        android:maxLength="25"
                         android:padding="20dp"
                         android:text="@{driverName}"
                         android:textSize="20sp"
@@ -358,6 +358,8 @@
                         app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_IDNo_EditText" />
 
                     <EditText
+                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
+
                         android:id="@+id/SubmissionPg_ContactNo_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -372,7 +374,6 @@
                         android:padding="20dp"
                         android:text="@{driverContact}"
                         android:textSize="20sp"
-                        android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
                         app:layout_constraintStart_toEndOf="@+id/SubmissionPg_DriverName_EditText"
                         app:layout_constraintTop_toTopOf="@+id/SubmissionPg_DriverName_EditText" />
 
@@ -393,6 +394,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_ContactNo_EditText">
 
                         <Button
+                            android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
                             android:id="@+id/HandOrTakeOverPg_Review_Button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -407,6 +409,7 @@
                             android:textSize="24sp" />
 
                         <Button
+                            android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
                             android:id="@+id/HandOrTakeOverPg_Continue_Button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
