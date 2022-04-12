@@ -35,7 +35,6 @@ class PlateCodeAdapter(
         holder.itemView.setOnClickListener{
             onItemCodeClick(pcode)
         }
-
     }
 
     override fun getItemCount(): Int = code.size

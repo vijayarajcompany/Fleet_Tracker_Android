@@ -68,7 +68,7 @@ class HandOrTakeOverFragment : Fragment() {
     var selectedTank:FuelTankModel? = null
     private var strplateNumber:String? = null
     private var stremirates:String? = null
-    private var strPlatecode:String? = null
+    private var strSelectedPlatecode:String? = null
     private var strSelectedEmirates:String? = null
     private var strKM:String? = null
     private var strFuelTank:String? = null
@@ -94,6 +94,8 @@ class HandOrTakeOverFragment : Fragment() {
         heading = args.heading
 
         clearControls()
+
+
         binding.HandOrTakeOverPgContinueButton.setOnClickListener {
             hideKeyboard()
 
@@ -128,6 +130,7 @@ class HandOrTakeOverFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[HandOrTakeOverViewModel::class.java] // ViewModel
         setupFuelTank()
         binding.SubmissionPgPlateNoEditText.setText("")
+        binding.keyboardDonePressed = false
         modelObserver()
         clearControls()
     }
@@ -193,6 +196,7 @@ class HandOrTakeOverFragment : Fragment() {
 //                  showValidationDialog("Plate Number")
                     printMsg("IME_ACTION_DONE")
                     validEmirates = false
+                    keyboardDonePressed = true
                     getEmiratesForPlateNoFromDB(false,0)
 
 //                    binding.validPlatNo = !binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
@@ -270,8 +274,11 @@ class HandOrTakeOverFragment : Fragment() {
 
     }
 
-    private val onItemCodeClick: (String) -> Unit = { tsk ->
-        Log.i(TAG, "this is task $tsk")
+    private val onItemCodeClick: (String) -> Unit = { code ->
+        Log.i(TAG, "this is task $code")
+
+
+        strSelectedPlatecode = code
 
         val date = getCurrentDateTime()
         val dateInString = date.toString("dd-MM-yyyy")
@@ -306,6 +313,8 @@ class HandOrTakeOverFragment : Fragment() {
             SubmissionPgKMEditText.setText("")
             SubmissionPgIDNoEditText.setText("")
         }
+
+        binding.keyboardDonePressed = false
 
         binding.plateNoError      = false
         binding.validPlatNo       = false
@@ -371,7 +380,11 @@ fun printMsg(message:String)
         }
 
         viewModel.emirates?.observe(viewLifecycleOwner) { emirates ->
-            if(!emirates.isNullOrEmpty()){
+
+            val iskeypress = binding.keyboardDonePressed!!
+            if(!emirates.isNullOrEmpty() && (iskeypress)){
+
+                binding.keyboardDonePressed = false
                 binding.plateNoError = false
                 binding.validPlatNo = true
 
@@ -511,7 +524,7 @@ fun printMsg(message:String)
         reviewDriverName.text = strDriverName!!
         reviewContactNo.text = strContactNo!!
         reviewEmirates.text = strSelectedEmirates!!
-        reviewPlateCode.text = heading!!
+        reviewPlateCode.text = strSelectedPlatecode!!
 
 //        inflater!!.findViewById<TextView>(R.id.HandOrTakeOverPg_Review_Heading_TextView).setText("hello vijayarajjjjjjjjjjj")
 
@@ -623,9 +636,6 @@ fun printMsg(message:String)
 
     }
 
-
-
-
     //DATA
     private fun setupFuelTank(){
 
@@ -722,9 +732,11 @@ fun printMsg(message:String)
             val plateno = binding.SubmissionPgPlateNoEditText.text.toString().trim().toInt()
             if(isRecycleClicked && lastValidPlateNoEntered == plateno){
 //                  HideFromPlateCodeControl()
+                    binding.keyboardDonePressed = true
                     getPlateCodeForPlateNo_EmirateFromDB(plateno,emirateid)
             }
             else if(isRecycleClicked && lastValidPlateNoEntered != plateno){
+                binding.keyboardDonePressed = true
                 getEmiratesFromDB(plateno)            }
             else{
 //              HideFromEmiratesControl()

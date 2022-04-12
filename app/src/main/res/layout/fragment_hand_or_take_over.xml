@@ -10,6 +10,10 @@
             type="Boolean"/>
 
         <variable
+            name="keyboardDonePressed"
+            type="Boolean"/>
+
+        <variable
             name="plateNoError"
             type="Boolean"/>
 
@@ -147,7 +151,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_VehicleInfo_TextView" />
 
                     <TextView
-                        android:visibility="@{plateNoError ?  View.VISIBLE : View.GONE  }"
+                        android:visibility="@{(plateNoError &amp;&amp; keyboardDonePressed ) ?  View.VISIBLE : View.GONE  }"
                         android:id="@+id/HandOrTakeOverPg_PlateNoError_TextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
