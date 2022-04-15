@@ -95,7 +95,6 @@ class HandOrTakeOverFragment : Fragment() {
 
         clearControls()
 
-
         binding.HandOrTakeOverPgContinueButton.setOnClickListener {
             hideKeyboard()
 
@@ -276,10 +275,7 @@ class HandOrTakeOverFragment : Fragment() {
 
     private val onItemCodeClick: (String) -> Unit = { code ->
         Log.i(TAG, "this is task $code")
-
-
         strSelectedPlatecode = code
-
         val date = getCurrentDateTime()
         val dateInString = date.toString("dd-MM-yyyy")
         val TimeInString = date.toString("HH:mm aa")
@@ -294,7 +290,6 @@ class HandOrTakeOverFragment : Fragment() {
 
         getEmiratesForPlateNoFromDB(true,0)
 
-
     }
 
 //    private val onItemCodeClick: (PlateCodeModel) -> Unit = { tsk ->
@@ -303,6 +298,8 @@ class HandOrTakeOverFragment : Fragment() {
 //        binding.validPlateCode = true
 //        binding.validDriver = false
 //    }
+
+
     private fun clearControls()
     {
         with(binding){
@@ -370,13 +367,9 @@ fun printMsg(message:String)
         }
 
         viewModel.plateCode?.observe(viewLifecycleOwner) { plateCode ->
-
             if(!plateCode.isNullOrEmpty()){
                 binding.HandorTakeOverPgCodeRecyclerView.adapter = activity?.let { PlateCodeAdapter(plateCode, it.applicationContext, onItemCodeClick) }
-
             }
-
-
         }
 
         viewModel.emirates?.observe(viewLifecycleOwner) { emirates ->

@@ -26,7 +26,7 @@
         <entry key="app/src/main/res/layout/dialog_time.xml" value="0.224609375" />
         <entry key="app/src/main/res/layout/dialog_validate_hand_or_take_over.xml" value="0.2743055555555556" />
         <entry key="app/src/main/res/layout/fragment_distribution.xml" value="0.41255961844197137" />
-        <entry key="app/src/main/res/layout/fragment_hand_or_take_over.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_hand_or_take_over.xml" value="0.42540983606557375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_movement.xml" value="0.25" />
@@ -37,7 +37,7 @@
         <entry key="app/src/main/res/layout/movement_fragment.xml" value="0.2837171052631579" />
         <entry key="app/src/main/res/layout/progress_bar_large.xml" value="0.25341796875" />
         <entry key="app/src/main/res/layout/recycler_row_code.xml" value="0.25341796875" />
-        <entry key="app/src/main/res/layout/recycler_row_emirates.xml" value="0.1696113074204947" />
+        <entry key="app/src/main/res/layout/recycler_row_emirates.xml" value="0.5" />
         <entry key="app/src/main/res/layout/recycler_row_home.xml" value="0.316025641025641" />
         <entry key="app/src/main/res/layout/recycler_row_license.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recycler_row_movement.xml" value="0.48779296875" />

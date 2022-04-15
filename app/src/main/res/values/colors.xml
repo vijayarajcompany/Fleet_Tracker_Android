@@ -44,6 +44,9 @@
 
 
     <color name="colordarkgry">#585858</color>
+    <color name="colorscrollbar">#858887</color>
+
+
 
 
 </resources>

@@ -22,7 +22,18 @@ data class VehicleDetailTbl(
     var id: Int,
     var plate_no: Int,
     var emirates_id: Int,
-    var platecode: String
+    var platecode: String,
+    var fleet_id:Int
+)
+
+
+@Entity(tableName = "Tbl_Fleet")
+data class FleetTbl(
+    @PrimaryKey
+    var id: Int,
+    var serialno:String,
+    var km:Int,
+    var active:Boolean
 )
 
 

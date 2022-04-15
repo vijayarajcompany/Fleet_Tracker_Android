@@ -128,7 +128,6 @@
                         android:textColor="@color/colorPepsi_TextForeground"
                         android:textSize="20sp"
                         android:textStyle="bold"
-
                         app:layout_constraintStart_toStartOf="@+id/HandorTakeOverPg_Code_RecyclerView"
                         app:layout_constraintTop_toTopOf="@+id/HandOrTakeOverPg_Emirates_TextView" />
 
@@ -189,6 +188,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/HandorTakeOverPg_DriverInfo_Button" />
 
                     <EditText
+                        android:imeOptions="actionDone"
                         android:id="@+id/SubmissionPg_KM_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
@@ -225,7 +225,6 @@
                         tools:ignore="SpeakableTextPresentCheck" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:visibility="@{validPlatNo ? View.VISIBLE  : View.GONE }"
                         android:id="@+id/HandorTakeOverPg_Emirates_RecyclerView"
                         android:layout_width="300dp"
                         android:layout_height="170dp"
@@ -234,8 +233,9 @@
                         android:fadeScrollbars="false"
                         android:orientation="vertical"
                         android:padding="5dp"
-                        android:scrollbarThumbVertical="@color/white"
+                        android:scrollbarThumbVertical="@color/colorscrollbar"
                         android:scrollbars="vertical"
+                        android:visibility="@{validPlatNo ? View.VISIBLE  : View.GONE }"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toStartOf="@+id/HandOrTakeOverPg_Emirates_TextView"
                         app:layout_constraintTop_toBottomOf="@+id/HandOrTakeOverPg_Emirates_TextView"
@@ -253,7 +253,7 @@
                         android:fadeScrollbars="false"
                         android:orientation="vertical"
                         android:padding="5dp"
-                        android:scrollbarThumbVertical="@color/white"
+                        android:scrollbarThumbVertical="@color/colorscrollbar"
                         android:scrollbars="vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintStart_toEndOf="@+id/HandorTakeOverPg_Emirates_RecyclerView"
@@ -363,7 +363,6 @@
 
                     <EditText
                         android:visibility="@{(validPlatNo &amp;&amp; validEmirates &amp;&amp; validPlateCode &amp;&amp; validDriver) ? View.VISIBLE : View.GONE }"
-
                         android:id="@+id/SubmissionPg_ContactNo_EditText"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"

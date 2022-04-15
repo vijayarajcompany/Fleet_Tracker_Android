@@ -87,5 +87,7 @@
 
 
     <string name="ErrorPlateNo">Please Enter a Valid Plate Number</string>
+    <string name="HandTakeOverPg_Emirates_TextView_Txt">Emirates</string>
+    <string name="HandTakeOverPg_PlateCode_TextView_Txt">Plate Code</string>
 
 </resources>
