@@ -1,17 +1,23 @@
 package com.pepsidrc.fleet_tracker.fragment
 
-import androidx.lifecycle.ViewModelProvider
+//import android.R
+
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.os.LocaleList
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.res.ResourcesCompat
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.test.core.app.ApplicationProvider
 import coil.load
 import com.pepsidrc.fleet_tracker.R
 import com.pepsidrc.fleet_tracker.activity.MainActivity
@@ -19,30 +25,10 @@ import com.pepsidrc.fleet_tracker.adapter.LicenseAdapter
 import com.pepsidrc.fleet_tracker.adapter.vehiclepartsAdapter
 import com.pepsidrc.fleet_tracker.common.Utility.Companion.hideKeyboard
 import com.pepsidrc.fleet_tracker.databinding.FragmentDistributionBinding
-import com.pepsidrc.fleet_tracker.model.EmiratesModel
 import com.pepsidrc.fleet_tracker.model.LicenseModel
 import com.pepsidrc.fleet_tracker.model.VehiclePartsModel
 import com.pepsidrc.fleet_tracker.viewModel.DistributionViewModel
 import java.util.*
-import android.content.Intent
-import android.content.res.Configuration
-import android.content.res.Resources
-
-import android.util.DisplayMetrics
-import android.widget.Toast
-
-import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.text.InputType
-//import android.R
-
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.text.Layout
-import android.widget.Button
-import androidx.appcompat.app.AlertDialog
-import androidx.test.core.app.ApplicationProvider
-
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 
 private const val TAG = "DistributionFragment"
 class DistributionFragment : Fragment() {
@@ -180,6 +166,12 @@ class DistributionFragment : Fragment() {
 //                DistributionPgCommentsInfoTextView.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
                 DistributionPgArabicButton.setBackgroundResource(R.color.colorPepsi_ButtonBackground_clicked)
                 DistributionPgEnglishButton.setBackgroundResource(R.color.colorPepsi_ButtonBackground)
+
+
+                DistributionPgCommentsEditText.setImeHintLocales(LocaleList(Locale("zh", "CN")))
+
+
+
             }
         }
     }

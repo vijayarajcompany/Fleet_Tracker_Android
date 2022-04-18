@@ -41,4 +41,12 @@ class HandorTakeOverRepository (application: Application, contxt: Context) {
         return@withContext emirates
     }
 
+
+    suspend fun getKMFromDB(plateNo:Int,emirateid:Int,platecode:String): Int? = withContext(Dispatchers.IO) {
+        val km = vehiclesDao.getKilometer(plateNo,emirateid,platecode)
+        return@withContext km
+    }
+
 }
+
+

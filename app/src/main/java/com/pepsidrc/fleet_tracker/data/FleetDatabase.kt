@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.TypeConverters
 
 
-@Database(entities = [UserTbl::class,TaskTbl::class,SubTaskTbl::class,VehicleTbl::class,EmployeeTbl::class,VehiclePartTbl::class,EmiratesTbl::class,VehicleDetailTbl::class], version = 15)
+@Database(entities = [UserTbl::class,TaskTbl::class,SubTaskTbl::class,VehicleTbl::class,EmployeeTbl::class,VehiclePartTbl::class,EmiratesTbl::class,VehicleDetailTbl::class, FleetTbl::class], version = 16)
 @TypeConverters(Converters::class)
 abstract class FleetDatabase: RoomDatabase() {
 

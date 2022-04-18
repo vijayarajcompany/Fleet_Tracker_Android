@@ -102,8 +102,9 @@ class VehicleFragment : Fragment() {
             }
         }
 
-        GetVehicle()
+        GetVehicleFromWebApi()
         GetVehicleDetailFromWebApi()
+        GetFleetFromWebApi()
 //        viewModel = ViewModelProvider(this).get(VehicleViewModel::class.java)
 //
 //        val _vehicle:List<VehicleModel> = mutableListOf(
@@ -116,10 +117,21 @@ class VehicleFragment : Fragment() {
 
     }
 
-    private fun GetVehicle() {
+
+    private fun GetFleetFromWebApi() {
         val connect = Common.checkConnectivity(requireContext())
         if (connect) {
-            viewModel.GetVehicles()
+            viewModel.getFleetFromWebApi()
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    private fun GetVehicleFromWebApi() {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+            viewModel.getVehicleFromWebApi()
         } else {
             Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
                 .show()
@@ -152,6 +164,8 @@ class VehicleFragment : Fragment() {
     private val onItemClick:(VehicleModel) -> Unit = { vehiclee ->
         Log.i(TAG,"this is task $vehiclee")
         var vehicleName = vehiclee.name.uppercase()
+//        var vehe = vehiclee.part)
+
         val heading = vehicleName + " " + movementType
 
         val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment(taskid!!,subtaskid!!,vehiclee.name,heading)

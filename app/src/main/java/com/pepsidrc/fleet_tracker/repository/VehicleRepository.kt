@@ -21,6 +21,15 @@ class VehicleRepository (application: Application, contxt: Context) {
         vehicleDao = FleetDb!!.vehicleDao()
     }
 
+    suspend fun insertFleetToDB(fleets: List<FleetTbl>) = withContext(Dispatchers.IO) {
+        try {
+            vehicleDao.deleteAllfleet()
+            vehicleDao.insertFleet(fleets)
+        } catch (e: Exception) {
+            var errorMessage = e.message
+        }
+    }
+
     suspend fun insertVehicleToDB(vehicles: List<VehicleTbl>) = withContext(Dispatchers.IO) {
         try {
             vehicleDao.deleteAllVehicle()
@@ -43,6 +52,25 @@ class VehicleRepository (application: Application, contxt: Context) {
     suspend fun getAllVehicleFromDB():List<VehicleModel>? = withContext(Dispatchers.IO) {
         val tasks:List<VehicleModel>? = vehicleDao.getAllVehicle()
         return@withContext tasks
+    }
+
+
+    suspend fun getFleetFromWebApi(): List<FleetTbl>? {
+        val response =  RetrofitInstance.api.getFleet()
+        response.isSuccessful.let {
+            when (response.code()) {
+                400 -> {
+                    Toast.makeText(cntxt, "Please contact administrator", Toast.LENGTH_SHORT).show()
+                }
+                500 -> {
+                    Toast.makeText(cntxt, "Internal Server Error", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    return response.body()
+                }
+            }
+        }
+        return emptyList()
     }
 
 
@@ -76,7 +104,6 @@ class VehicleRepository (application: Application, contxt: Context) {
                     Toast.makeText(cntxt, "Internal Server Error", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-
                     return response.body()
                 }
             }

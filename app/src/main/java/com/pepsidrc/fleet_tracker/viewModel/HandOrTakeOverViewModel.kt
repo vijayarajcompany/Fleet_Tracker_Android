@@ -2,14 +2,9 @@ package com.pepsidrc.fleet_tracker.viewModel
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.pepsidrc.fleet_tracker.data.EmployeeTbl
-import com.pepsidrc.fleet_tracker.data.SubTaskTbl
-import com.pepsidrc.fleet_tracker.data.TaskTbl
 import com.pepsidrc.fleet_tracker.model.EmiratesModel
 import com.pepsidrc.fleet_tracker.model.EmployeeModel
-import com.pepsidrc.fleet_tracker.model.SubTaskModel
 import com.pepsidrc.fleet_tracker.repository.HandorTakeOverRepository
-import com.pepsidrc.fleet_tracker.repository.VehicleRepository
 import kotlinx.coroutines.launch
 
 private const val TAG = "HandOrTakeOverViewModel"
@@ -37,6 +32,11 @@ class HandOrTakeOverViewModel(private val handorTakeOverRepository: HandorTakeOv
     private val _plateCode: MutableLiveData<List<String>?>? =  MutableLiveData()
     var plateCode: MutableLiveData<List<String>?>? = null
         get() = _plateCode
+
+    private val _km: MutableLiveData<Int?> =  MutableLiveData()
+    var KM: MutableLiveData<Int?>? = null
+        get() = _km
+
 
     private val _validPlatNo: MutableLiveData<Int>? =  MutableLiveData()
     var ValidPlateNo: MutableLiveData<Int>? = null
@@ -112,5 +112,24 @@ class HandOrTakeOverViewModel(private val handorTakeOverRepository: HandorTakeOv
             }
         }
     }
+
+    fun getKmFromDB(plateNo:Int, emirateid:Int, platecode:String){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            var Km: Int?
+            try {
+                _isLoading.value = false
+                Km = handorTakeOverRepository.getKMFromDB(plateNo,emirateid,platecode)
+                _km?.value = Km!!
+
+            } catch (e: Exception) {
+                _isLoading.value = false
+                _errorEmpMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            }
+        }
+    }
+
 
 }

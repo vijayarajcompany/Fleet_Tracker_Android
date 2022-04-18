@@ -4,6 +4,8 @@ package com.pepsidrc.fleet_tracker.fragment
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +17,7 @@ import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -22,6 +25,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.pepsidrc.fleet_tracker.R
 import com.pepsidrc.fleet_tracker.activity.MainActivity
 import com.pepsidrc.fleet_tracker.adapter.EmiratesAdapter
@@ -70,6 +74,7 @@ class HandOrTakeOverFragment : Fragment() {
     private var stremirates:String? = null
     private var strSelectedPlatecode:String? = null
     private var strSelectedEmirates:String? = null
+    private var strSelectedEmirates_id:Int? = null
     private var strKM:String? = null
     private var strFuelTank:String? = null
     private var strDriverID:String? = null
@@ -85,6 +90,7 @@ class HandOrTakeOverFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         //Data Binding
          binding = DataBindingUtil.inflate(inflater,R.layout.fragment_hand_or_take_over,container,false)
          val view = binding.root
@@ -229,16 +235,40 @@ class HandOrTakeOverFragment : Fragment() {
                 }
             }
 
+            SubmissionPgKMEditText.setOnEditorActionListener { v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                {
+                    hideKeyboard()
+                    printMsg("IME_ACTION_DONE")
+
+                    if(binding.SubmissionPgKMEditText.text.isNullOrEmpty())
+                    {
+                        ShowValidationErrorDialog("Please enter the KM")
+                    }
+                    else
+                    {
+                        getKilometerFromDB()
+
+
+                    }
+
+
+
+
+
+                    true
+                }
+                else
+                {
+                    false
+                }
+            }
+
+
             HandOrTakeOverPgReviewButton.setOnClickListener{
                 hideKeyboard()
-                var ErrorMsg = ""
-                if(binding.SubmissionPgKMEditText.text.isNullOrEmpty())
-                {
-                    ErrorMsg = "Please enter the KM"
-                }
-                else if( selectedTank?.id  == fuelTankList?.get(0)?.id ){
-                    ErrorMsg = "Please select the Fuel Tank"
-                }
+
+                val ErrorMsg  = validateKMWhileReview()
 
                 if (ErrorMsg.isEmpty())
                 {
@@ -256,6 +286,20 @@ class HandOrTakeOverFragment : Fragment() {
         }
     }
 
+    fun validateKMWhileReview():String{
+
+        var ErrorMsg = ""
+        if(binding.SubmissionPgKMEditText.text.isNullOrEmpty())
+        {
+            ErrorMsg = "Please enter the KM"
+        }
+        else if( selectedTank?.id  == fuelTankList?.get(0)?.id ){
+            ErrorMsg = "Please select the Fuel Tank"
+        }
+
+        return  ErrorMsg
+    }
+
     fun SelectedFuelCard(fuelcard: FuelTankModel) {
         this.selectedTank = fuelcard
     }
@@ -269,6 +313,7 @@ class HandOrTakeOverFragment : Fragment() {
         binding.validPlateCode = false
 //        binding.validPlateCode = true
         strSelectedEmirates = emirate.name
+        strSelectedEmirates_id = emirate.id
         getEmiratesForPlateNoFromDB(true,emirate.id)
 
     }
@@ -372,6 +417,15 @@ fun printMsg(message:String)
             }
         }
 
+        viewModel.KM?.observe(viewLifecycleOwner) { kilometer ->
+                kilometer?.let {
+                    val userEnteredKM = binding.SubmissionPgKMEditText.text.toString().toInt()
+                    if(userEnteredKM <= kilometer){
+                        ShowValidationErrorDialog("Kilometer should be greater than previous entry $kilometer")
+                    }
+                }
+        }
+
         viewModel.emirates?.observe(viewLifecycleOwner) { emirates ->
 
             val iskeypress = binding.keyboardDonePressed!!
@@ -451,6 +505,20 @@ fun printMsg(message:String)
             }
         }
 
+    }
+
+
+    private fun showInputMethodPicker() {
+        val imeManager: InputMethodManager = getApplicationContext<Context>().getSystemService(
+            INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        if (imeManager != null) {
+            imeManager.showInputMethodPicker()
+        } else {
+//            Toast.makeText((), "not possible", Toast.LENGTH_LONG).show()
+            val test = 894357
+
+        }
     }
 
 
@@ -695,6 +763,24 @@ fun printMsg(message:String)
     }
 
     //DATABASE CALLS
+
+    private fun getKilometerFromDB()
+    {
+        val connect = Common.checkConnectivity(requireContext())
+        if (connect) {
+
+            val plateno = binding.SubmissionPgPlateNoEditText.text.toString().toInt()
+            val emirateid = strSelectedEmirates_id!!.toInt()
+            val platecode = strSelectedPlatecode.toString()
+
+            viewModel.getKmFromDB(plateno,emirateid,platecode)
+
+        } else {
+            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
     private fun getEmployeeForID()
     {
         val isNotEmpty = !binding.SubmissionPgIDNoEditText.text.isNullOrEmpty()
@@ -756,7 +842,7 @@ fun printMsg(message:String)
             Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
                 .show()
         }
-
+    }
 //        binding.plateNoError = false
 //        val isEmpty = binding.SubmissionPgPlateNoEditText.text.isNullOrEmpty()
 //        binding.validPlatNo = !isEmpty
@@ -775,7 +861,17 @@ fun printMsg(message:String)
 
 
 
-    }
+
+
+//    private fun  getKMFromDB(empID:Int) {
+//        val connect = Common.checkConnectivity(requireContext())
+//        if (connect) {
+//            viewModel.getEmployeeFromDB(empID)
+//        } else {
+//            Toast.makeText(requireContext(), "There is no internet connection", Toast.LENGTH_LONG)
+//                .show()
+//        }
+//    }
 
     private fun  getEmployeeFromDB(empID:Int) {
         val connect = Common.checkConnectivity(requireContext())

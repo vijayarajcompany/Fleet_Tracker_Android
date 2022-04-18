@@ -10,6 +10,9 @@ import com.pepsidrc.fleet_tracker.model.VehicleModel
 interface VehiclesDao {
 
     @Insert
+    fun insertFleet(fleet: List<FleetTbl>)
+
+    @Insert
     fun insertVehicle(users: List<VehicleTbl>)
 
     @Insert
@@ -26,10 +29,15 @@ interface VehiclesDao {
     fun getPlateCode(plateNo:Int,emirateid:Int): List<String>
 
 
+    @Query("SELECT km FROM Tbl_Fleet WHERE id IN (SELECT fleet_id FROM Tbl_VehicleDetail WHERE plate_no = :plateNo AND emirates_id = :emirateid AND platecode = :platecode)")
+    fun getKilometer(plateNo:Int,emirateid:Int, platecode:String): Int?
 
 
     @Query("SELECT * FROM Tbl_Vehicle")
     fun getAllVehicle(): List<VehicleModel>
+
+    @Query("DELETE FROM Tbl_Fleet")
+    fun deleteAllfleet()
 
     @Query("DELETE FROM Tbl_Vehicle")
     fun deleteAllVehicle()

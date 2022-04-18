@@ -2,6 +2,7 @@ package com.pepsidrc.fleet_tracker.viewModel
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.pepsidrc.fleet_tracker.data.FleetTbl
 import com.pepsidrc.fleet_tracker.data.VehicleTbl
 import com.pepsidrc.fleet_tracker.model.VehicleModel
 import com.pepsidrc.fleet_tracker.repository.VehicleRepository
@@ -18,7 +19,9 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewM
         }
     }
 
-
+    private val _fleet: MutableLiveData<List<FleetTbl>>? =   MutableLiveData()
+    var fleet: LiveData<List<FleetTbl>>? = null
+        get() = _fleet
 
     private val _vehicle: MutableLiveData<List<VehicleTbl>>? =   MutableLiveData()
     var vehicle: LiveData<List<VehicleTbl>>? = null
@@ -52,7 +55,28 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewM
 
 
     // NETWORK CALLS
-    fun GetVehicles() {
+    fun getFleetFromWebApi() {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val FleetList = vehicleRepository.getFleetFromWebApi()
+                if (!FleetList.isNullOrEmpty()) {
+                    vehicleRepository.insertFleetToDB(FleetList)
+                    _fleet?.value = FleetList!!
+                }
+                _isLoading.value = false
+            } catch (e: Exception) {
+                _isLoading.value = false
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+    fun getVehicleFromWebApi() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true

@@ -18,6 +18,9 @@ interface FleetApi {
     @GET("subtask/")
     suspend fun getSubTasks(): Response<List<SubTaskTbl>>
 
+    @GET("fleet/")
+    suspend fun getFleet(): Response<List<FleetTbl>>
+
     @GET("vehicle/")
     suspend fun getVehicles(): Response<List<VehicleTbl>>
 

@@ -23,7 +23,7 @@ data class VehicleDetailTbl(
     var plate_no: Int,
     var emirates_id: Int,
     var platecode: String,
-    var fleet_id:Int
+    var fleet_id:Int?
 )
 
 
