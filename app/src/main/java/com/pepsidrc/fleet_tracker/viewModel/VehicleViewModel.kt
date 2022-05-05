@@ -13,6 +13,7 @@ private const val TAG = "VehicleViewModel"
 
 class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewModel()
 {
+
     class Factory(private val vehicleRepository: VehicleRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return VehicleViewModel(vehicleRepository) as T
@@ -97,7 +98,6 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewM
             }
         }
     }
-
     fun GetVehicleDetailFromWebApi() {
         viewModelScope.launch {
             _errorMessage.value = null

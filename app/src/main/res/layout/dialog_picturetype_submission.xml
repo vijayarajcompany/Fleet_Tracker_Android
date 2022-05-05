@@ -39,7 +39,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:paddingTop="0dp"
-                    android:text="@string/signoutTitle"
+                    android:text="Picture Type"
 
                     android:textAlignment="center"
                     android:textAllCaps="false"
@@ -48,13 +48,13 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/SignCancel_button"
+                    app:layout_constraintEnd_toStartOf="@+id/pictureTypeCancel_button"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/SignCancel_button"
+                    android:id="@+id/pictureTypeCancel_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="@drawable/closeicon"
@@ -76,7 +76,7 @@
                 android:gravity="left"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="@string/signoutInfo"
+                android:text="Please Select the Picture type"
                 android:textColor="@color/colorTG_TxtinfoColor"
                 android:textSize="14sp" />
 
@@ -97,8 +97,8 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <Button
-                        android:id="@+id/Cancel_button"
-                        android:layout_width="65dp"
+                        android:id="@+id/frontside_button"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
@@ -108,7 +108,7 @@
                         android:background="@drawable/roundedcorner_small"
                         android:fontFamily="@font/lato_semibold"
 
-                        android:text="@string/No"
+                        android:text="Front Side"
                         android:textAlignment="textStart"
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
@@ -116,8 +116,8 @@
 
 
                     <Button
-                        android:id="@+id/Ok_button"
-                        android:layout_width="70dp"
+                        android:id="@+id/backside_button"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
@@ -125,7 +125,7 @@
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/roundedcorner_small"
                         android:fontFamily="@font/lato_semibold"
-                        android:text="@string/Yes"
+                        android:text="Back Side"
                         android:textAlignment="textStart"
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"

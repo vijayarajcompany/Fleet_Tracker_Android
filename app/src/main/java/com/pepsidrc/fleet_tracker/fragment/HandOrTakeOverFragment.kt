@@ -36,6 +36,7 @@ import com.pepsidrc.fleet_tracker.common.Utility.Companion.hideKeyboard
 import com.pepsidrc.fleet_tracker.databinding.FragmentHandOrTakeOverBinding
 import com.pepsidrc.fleet_tracker.model.EmiratesModel
 import com.pepsidrc.fleet_tracker.model.FuelTankModel
+import com.pepsidrc.fleet_tracker.model.VehicleModel
 import com.pepsidrc.fleet_tracker.repository.HandorTakeOverRepository
 import com.pepsidrc.fleet_tracker.viewModel.HandOrTakeOverViewModel
 import java.text.SimpleDateFormat
@@ -57,7 +58,10 @@ class HandOrTakeOverFragment : Fragment() {
     private val args:HandOrTakeOverFragmentArgs by navArgs()
     private var taskid:Int? = null
     private var subtaskid:Int? = null
-    private var vehiclename:String? = null
+
+//    private var vehiclename:String? = null
+
+    private var vehicle:VehicleModel? = null
     private var heading:String? = null
     private lateinit var currentButtonType:ButtonType
 
@@ -93,11 +97,13 @@ class HandOrTakeOverFragment : Fragment() {
 
         //Data Binding
          binding = DataBindingUtil.inflate(inflater,R.layout.fragment_hand_or_take_over,container,false)
-         val view = binding.root
+        val view = binding.root
         taskid = args.taskid
         subtaskid = args.subtaskid
-        vehiclename = args.vehicleName
         heading = args.heading
+        vehicle = args.vehicle
+//      vehiclename = args.vehicle.name
+
 
         clearControls()
 
@@ -162,6 +168,7 @@ class HandOrTakeOverFragment : Fragment() {
         (activity as MainActivity).setHardwareBackPressedStatus(true)
         (activity as MainActivity).ChangeToolBarText(heading!!)
 
+        showCalender()
         showCalender()
         showTimer()
 
@@ -248,13 +255,7 @@ class HandOrTakeOverFragment : Fragment() {
                     else
                     {
                         getKilometerFromDB()
-
-
                     }
-
-
-
-
 
                     true
                 }
@@ -357,7 +358,6 @@ class HandOrTakeOverFragment : Fragment() {
         }
 
         binding.keyboardDonePressed = false
-
         binding.plateNoError      = false
         binding.validPlatNo       = false
         binding.validEmirates     = false
@@ -368,11 +368,10 @@ class HandOrTakeOverFragment : Fragment() {
 
 
 
-    private fun openDistributionPage() {
+    private fun openDistributionPage(emirateid: Int) {
         currentButtonType = ButtonType.NONE
         clearControls()
-
-        val action = HandOrTakeOverFragmentDirections.actionHandOrTakeOverFragmentToDistributionFragment(heading!!)
+        val action = HandOrTakeOverFragmentDirections.actionHandOrTakeOverFragmentToDistributionFragment(heading!!,vehicle!!,emirateid!!)
         view?.findNavController()?.navigate(action)
     }
 
@@ -426,6 +425,7 @@ fun printMsg(message:String)
                 }
         }
 
+
         viewModel.emirates?.observe(viewLifecycleOwner) { emirates ->
 
             val iskeypress = binding.keyboardDonePressed!!
@@ -458,10 +458,9 @@ fun printMsg(message:String)
                 }
 
                 when (currentButtonType) {
-                    ButtonType.CONTINUE -> openDistributionPage()
+                    ButtonType.CONTINUE -> openDistributionPage(empdetails.emiratesid)
                     ButtonType.REVIEW -> showReview()
                     ButtonType.NONE -> ""
-                    // 'else' is not required because all cases are covered
                 }
 
             }

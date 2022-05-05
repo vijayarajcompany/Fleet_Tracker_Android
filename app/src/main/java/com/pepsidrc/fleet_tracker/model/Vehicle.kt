@@ -20,17 +20,21 @@ import java.io.Serializable
 @Parcelize
 data class VehicleModel (var name: String,
                          var part:  @RawValue List<Int>): Parcelable
+//@Parcelize
+//data class VehiclePartsModel (var id: Int, var name: String): Parcelable
+
 @Parcelize
-data class VehiclePartsModel (var id: Int, var name: String): Parcelable
+data class VehiclePartsModel (var id: Int, var name: String,var selected:Boolean = true): Parcelable
+
+@Parcelize
+data class LicenseModel (var id: Int, var name: String,var selected:Boolean = true): Parcelable
+
 
 @Parcelize
 data class EmiratesModel (var id: Int, var name: String, var code: String): Parcelable
 
 
 
-
-@Parcelize
-data class LicenseModel (var id: Int, var name: String): Parcelable
 
 @Parcelize
 data class PlateCodeModel (var id: Int, var name: String): Parcelable

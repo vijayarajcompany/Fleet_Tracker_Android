@@ -6,7 +6,7 @@
     android:id="@+id/signout_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorTransparent1"
+        android:background="@color/colorTransparent2"
         android:fillViewport="false"
         android:focusable="true"
         android:focusableInTouchMode="true"

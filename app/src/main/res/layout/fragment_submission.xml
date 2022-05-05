@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="validEmiratesID"
+            type="Boolean"/>
+    </data>
         <!-- ConstraintLayout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/HandOrTakeOverPg_Container_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             tools:context=".fragment.SubmissionFragment"
             >
+
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nestedScrollView"
@@ -60,10 +67,37 @@
                         android:maxLength="20"
                         android:padding="20dp"
                         android:textSize="20sp"
+                        android:imeOptions="actionDone"
                         app:layout_constraintStart_toEndOf="@+id/SubmissionPg_EmiratesID_info_TextView"
                         app:layout_constraintTop_toBottomOf="@+id/SubmissionPg_DriverInfo_TextView" />
 
                     <!--error message -->
+                    <!--error message -->
+                    <TextView
+                        android:visibility="@{validEmiratesID ? View.GONE : View.VISIBLE }"
+                        android:id="@+id/SubmissionPg_EmiratesIDError_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:lines="2"
+                        android:maxLines="2"
+                        android:paddingStart="5dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:text="@string/emiratesiderror"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPepsi_TxtError"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/SubmissionPg_EmiratesID_info_EditText"
+                        app:layout_constraintStart_toEndOf="@+id/SubmissionPg_DriverInfo_TextView"
+                        app:layout_constraintTop_toTopOf="@+id/SubmissionPg_DriverInfo_TextView"
+                        tools:visibility="visible" />
+
                     <TextView
                         android:id="@+id/SubmissionPg_PictureWarn1_label"
                         android:layout_width="wrap_content"
@@ -622,3 +656,5 @@
             </androidx.core.widget.NestedScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

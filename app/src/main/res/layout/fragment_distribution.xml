@@ -102,7 +102,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/DistributionPg_VehicleParts_RecyclerView"
                     android:layout_width="400dp"
-                    android:layout_height="300dp"
+                    android:layout_height="400dp"
                     android:layout_marginStart="50dp"
                     android:background="@color/colorDate"
                     android:orientation="vertical"
@@ -129,6 +129,7 @@
                     tools:listitem="@layout/recycler_row_license" />
 
                 <EditText
+                    android:imeOptions="actionDone"
                     android:textDirection="@{Integer.valueOf(langStatus)}"
                     android:textLocale=""
                     android:overScrollMode="always"
@@ -241,7 +242,8 @@
                         android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/colorPepsi_Heading_ButtonTxt"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:visibility="visible" />
                 </LinearLayout>
 
 

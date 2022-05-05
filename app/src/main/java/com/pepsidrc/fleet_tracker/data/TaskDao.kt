@@ -10,6 +10,7 @@ import com.pepsidrc.fleet_tracker.model.VehiclePartsModel
 
 @Dao
 interface TaskDao {
+
     @Insert
     fun insertTask(tasks: List<TaskTbl>)
 
@@ -22,8 +23,10 @@ interface TaskDao {
     @Insert
     fun insertEmirate(parts: List<EmiratesTbl>)
 
+
     @Query("SELECT * FROM Tbl_Task")
     fun getAllTasks(): List<TaskModel>
+
 
     @Query("SELECT * FROM Tbl_SubTask")
     fun getAllSubTasks(): List<SubTaskModel>
@@ -31,8 +34,11 @@ interface TaskDao {
 //    @Query("SELECT TOP(1) FROM Tbl_SubTask WHERE name = :name")
 //    fun getVehiclePartByName(name:String): VehiclePartsModel
 
-    @Query("SELECT id, name FROM Tbl_VehiclePart WHERE id IN (SELECT id FROM Tbl_Vehicle WHERE LOWER(name) = :name)")
-    fun getVehiclePart(name:String): List<VehiclePartsModel>
+//    @Query("SELECT id, name FROM Tbl_VehiclePart WHERE id IN (SELECT id FROM Tbl_Vehicle WHERE LOWER(name) = :name)")
+//    fun getVehiclePart(name:String): List<VehiclePartsModel>
+
+//    @Query("SELECT id, name FROM Tbl_VehiclePart WHERE id IN (:partsID)")
+//    fun getVehiclePart(partsID:List<Int>): List<VehiclePartsModel>
 
     @Query("DELETE  FROM Tbl_Task")
     fun deleteAllTasks()

@@ -56,9 +56,8 @@
     <string name="HandOrTakeOverPg_ContactNo_TextView_Hint">Contact Number</string>
 
 
-
-
     <string name="picturewarn">Each Picture size should not exceed more than 1 MB</string>
+    <string name="emiratesiderror">Emriates ID is not matching in our record.</string>
     <string name="emiratesid">EmiratesID</string>
     <string name="or">OR</string>
     <string name="SubmissionPg_EmiratesID_BackSide_TextView_Txt">Back Side</string>
@@ -82,7 +81,7 @@
     <string name="Ok">Ok</string>
     <string name="error">Error</string>
     <string name="PlateCodeError">Please Enter a Valid Plate Number </string>
-    <string name="EmployeeError">Please Enter a Valid Driver Number </string>
+    <string name="EmployeeError">Please Enter a Valid Driver Name </string>
     <string name="ErrorDriverNo">Please Enter a Valid Driver Number</string>
 
 

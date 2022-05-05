@@ -168,7 +168,7 @@ class VehicleFragment : Fragment() {
 
         val heading = vehicleName + " " + movementType
 
-        val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment(taskid!!,subtaskid!!,vehiclee.name,heading)
+        val action = VehicleFragmentDirections.actionVehicleFragmentToHandOrTakeOverFragment(taskid!!,subtaskid!!,heading,vehiclee)
         view?.findNavController()?.navigate(action)
 
     }

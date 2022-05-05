@@ -24,6 +24,9 @@ interface FleetApi {
     @GET("vehicle/")
     suspend fun getVehicles(): Response<List<VehicleTbl>>
 
+    @GET("license/")
+    suspend fun getLicenses(): Response<List<LicenseTbl>>
+
     @GET("vehicledetail/")
     suspend fun getVehiclesDetails(): Response<List<VehicleDetailTbl>>
 

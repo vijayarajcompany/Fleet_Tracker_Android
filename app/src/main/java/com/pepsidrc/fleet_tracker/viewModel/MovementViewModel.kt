@@ -44,8 +44,6 @@ class MovementViewModel(private val taskRepository: TaskRepository) : ViewModel(
         try {
             _isLoading.value = false
             subtasks = taskRepository.getAllSubTasksFromDB()
-            var ss =23
-            var sd =234
 
         } catch (e: Exception) {
             _isLoading.value = false

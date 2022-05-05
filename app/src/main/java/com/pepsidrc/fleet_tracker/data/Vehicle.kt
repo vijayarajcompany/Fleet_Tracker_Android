@@ -42,7 +42,8 @@ data class FleetTbl(
 data class VehiclePartTbl(
     @PrimaryKey
     var id: Int,
-    var name: String
+    var name: String,
+    var selected :Boolean = true
 )
 
 @Entity(tableName = "Tbl_Emirates")
@@ -51,6 +52,16 @@ data class EmiratesTbl(
     var id: Int,
     var name: String,
     var code: String
+)
+
+
+@Entity(tableName = "Tbl_License")
+data class LicenseTbl(
+    @PrimaryKey
+    var id: Int,
+    var name: String,
+    var code: String,
+    var selected :Boolean = true
 )
 
 //@JsonClass(generateAdapter = true)

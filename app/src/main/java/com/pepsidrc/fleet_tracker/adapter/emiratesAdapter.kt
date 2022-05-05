@@ -29,10 +29,11 @@ class EmiratesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val emiratee = emirates[position]
         val strNonSelectedColor = "#e3e4e5"
-//          val strSelectedColor = "#0091f4"
+//      val strSelectedColor = "#0091f4"
         val strSelectedColor = "#4a6d87"
 
         with(holder.binding){
+
             HandTakeOverPgEmiratesLabel.text = emiratee.name
             holder.itemView.setBackgroundColor(Color.parseColor(strNonSelectedColor))
             HandTakeOverPgRowConstraintLayout.setBackgroundColor(Color.parseColor(strNonSelectedColor))
@@ -45,6 +46,7 @@ class EmiratesAdapter(
                 HandTakeOverPgEmiratesLabel.setBackgroundColor(Color.parseColor(strSelectedColor))
                 HandTakeOverPgEmiratesLabel.setTypeface(null, Typeface.BOLD)
             }
+
         }
 
         holder.itemView.setOnClickListener{

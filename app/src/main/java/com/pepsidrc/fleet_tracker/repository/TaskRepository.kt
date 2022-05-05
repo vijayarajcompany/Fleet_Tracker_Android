@@ -78,15 +78,11 @@ class TaskRepository (application: Application, contxt: Context) {
 
     suspend fun getAllSubTasksFromDB(): List<SubTaskModel>? = withContext(Dispatchers.IO) {
             val subtasks = taskDao.getAllSubTasks()
-            var kk = 2452
             return@withContext subtasks
         }
 
 
-    suspend fun getVehiclePartsFromDB(name:String): List<VehiclePartsModel> = withContext(Dispatchers.IO) {
-        val vehicleParts = taskDao.getVehiclePart(name.lowercase())
-        return@withContext vehicleParts
-    }
+
 
 //    suspend fun getAllSubTasksFromDB(): List<SubTaskTbl> = withContext(Dispatchers.IO) {
 //        val subtasks = taskDao.getAllSubTasks()

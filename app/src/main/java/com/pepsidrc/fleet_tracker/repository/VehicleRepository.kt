@@ -5,8 +5,10 @@ import android.content.Context
 import android.widget.Toast
 import com.pepsidrc.fleet_tracker.api.RetrofitInstance
 import com.pepsidrc.fleet_tracker.data.*
+import com.pepsidrc.fleet_tracker.model.LicenseModel
 import com.pepsidrc.fleet_tracker.model.TaskModel
 import com.pepsidrc.fleet_tracker.model.VehicleModel
+import com.pepsidrc.fleet_tracker.model.VehiclePartsModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,6 +21,26 @@ class VehicleRepository (application: Application, contxt: Context) {
         val FleetDb = FleetDatabase.getDatabase(application)
         cntxt = contxt
         vehicleDao = FleetDb!!.vehicleDao()
+    }
+
+   suspend  fun getVehiclePartsFromDB(partsID:List<Int>): List<VehiclePartsModel> = withContext(Dispatchers.IO) {
+        val vehicleParts = vehicleDao.getVehiclePart(partsID)
+        return@withContext vehicleParts
+    }
+
+
+    suspend  fun getDistributionLicenseFromDB(): List<LicenseModel> = withContext(Dispatchers.IO) {
+        val license = vehicleDao.getDistributionLicense()
+        return@withContext license
+    }
+
+    suspend fun insertDistributionLicenseToDB(license: List<LicenseTbl>) = withContext(Dispatchers.IO) {
+        try {
+            vehicleDao.deleteAllLicenses()
+            vehicleDao.insertLicense(license)
+        } catch (e: Exception) {
+            var errorMessage = e.message
+        }
     }
 
     suspend fun insertFleetToDB(fleets: List<FleetTbl>) = withContext(Dispatchers.IO) {
@@ -73,6 +95,26 @@ class VehicleRepository (application: Application, contxt: Context) {
         return emptyList()
     }
 
+    suspend fun getLicenseFromWebApi(): List<LicenseTbl>? {
+
+        val response =  RetrofitInstance.api.getLicenses()
+
+        response.isSuccessful.let {
+            when (response.code()) {
+                400 -> {
+                    Toast.makeText(cntxt, "Please contact administrator", Toast.LENGTH_SHORT).show()
+                }
+                500 -> {
+                    Toast.makeText(cntxt, "Internal Server Error", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+
+                    return response.body()
+                }
+            }
+        }
+        return emptyList()
+    }
 
     suspend fun getVehicleFromWebApi(): List<VehicleTbl>? {
         val response =  RetrofitInstance.api.getVehicles()
@@ -92,6 +134,8 @@ class VehicleRepository (application: Application, contxt: Context) {
         }
         return emptyList()
     }
+
+
 
     suspend fun GetVehicleDetailFromWebApi(): List<VehicleDetailTbl>? {
         val response =  RetrofitInstance.api.getVehiclesDetails()

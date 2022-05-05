@@ -74,11 +74,11 @@
             android:name="subtaskid"
             app:argType="integer" />
         <argument
-            android:name="vehicleName"
-            app:argType="string" />
-        <argument
             android:name="heading"
             app:argType="string" />
+        <argument
+            android:name="vehicle"
+            app:argType="com.pepsidrc.fleet_tracker.model.VehicleModel" />
     </fragment>
     <fragment
         android:id="@+id/distributionFragment"
@@ -91,6 +91,12 @@
         <argument
             android:name="heading"
             app:argType="string" />
+        <argument
+            android:name="vehicle"
+            app:argType="com.pepsidrc.fleet_tracker.model.VehicleModel" />
+        <argument
+            android:name="emirateid"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/submissionFragment"
@@ -100,5 +106,8 @@
         <argument
             android:name="heading"
             app:argType="string" />
+        <argument
+            android:name="emiratesid"
+            app:argType="integer" />
     </fragment>
 </navigation>

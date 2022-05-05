@@ -5,12 +5,13 @@ import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.pepsidrc.fleet_tracker.R
 import com.pepsidrc.fleet_tracker.databinding.RecyclerRowVehiclePartsBinding
 import com.pepsidrc.fleet_tracker.model.VehiclePartsModel
-
+//    private val onItemClick: (VehiclePartsModel,needToAdd:Boolean) -> Unit
 class vehiclepartsAdapter(
     private val vehicleparts: List<VehiclePartsModel>,
     var context: Context,
@@ -28,29 +29,39 @@ class vehiclepartsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val parts = vehicleparts[position]
-//        holder.binding.DistributionPg_Parts_label
+
         with(holder.binding){
-                DistributionPgPartsLabel.text = parts.name
+
+            DistributionPgPartsLabel.text = parts.name
+
+            if(parts.selected){
+                DistributionPgPartsImgButton.setImageResource(R.drawable.green_check_mark_transp)
+            }
+            else
+            {
+                DistributionPgPartsImgButton.setImageResource(R.drawable.red_uncheck_mark_transp)
+            }
 
         }
+
         holder.itemView.setOnClickListener{
+            with(holder.binding) {
+                parts.selected = !parts.selected
 
-            with(holder.binding){
+//                DistributionPgPartsImgButton.setImageResource(R.drawable.green_check_mark_transp)
 
-                if(DistributionPgPartsImgButton.visibility == View.VISIBLE){
-                    DistributionPgPartsImgButton.visibility = View.GONE
+                if(parts.selected){
+                    DistributionPgPartsImgButton.setImageResource(R.drawable.green_check_mark_transp)
+                    onItemClick(parts)
+                    notifyDataSetChanged()
                 }
                 else
                 {
-                    DistributionPgPartsImgButton.visibility = View.VISIBLE
+                    DistributionPgPartsImgButton.setImageResource(R.drawable.red_uncheck_mark_transp)
+                    onItemClick(parts)
+                    notifyDataSetChanged()
                 }
-
-                DistributionPgPartsImgButton.load(R.drawable.closeicon)
-
-
             }
-
-            onItemClick(parts)
         }
     }
 
