@@ -63,6 +63,28 @@ class vehiclepartsAdapter(
                 }
             }
         }
+
+
+
+        holder.binding.DistributionPgPartsImgButton.setOnClickListener{
+            with(holder.binding) {
+                parts.selected = !parts.selected
+
+//                DistributionPgPartsImgButton.setImageResource(R.drawable.green_check_mark_transp)
+
+                if(parts.selected){
+                    DistributionPgPartsImgButton.setImageResource(R.drawable.green_check_mark_transp)
+                    onItemClick(parts)
+                    notifyDataSetChanged()
+                }
+                else
+                {
+                    DistributionPgPartsImgButton.setImageResource(R.drawable.red_uncheck_mark_transp)
+                    onItemClick(parts)
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int = vehicleparts.size

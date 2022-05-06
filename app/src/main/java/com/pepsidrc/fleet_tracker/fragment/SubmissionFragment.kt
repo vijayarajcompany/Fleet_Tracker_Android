@@ -83,7 +83,7 @@ class SubmissionFragment : Fragment() {
         with(binding){
             validEmiratesID = true
             SubmissionPgEmiratesIDErrorLabel.text = ""
-                imgSubmissionDrivingFront.load(android.R.drawable.ic_menu_camera)
+            imgSubmissionDrivingFront.load(android.R.drawable.ic_menu_camera)
             imgSubmissionDrivingBack.load(android.R.drawable.ic_menu_camera)
 
             imgSubmissionEmiratesIDFront.load(android.R.drawable.ic_menu_camera)
@@ -97,7 +97,6 @@ class SubmissionFragment : Fragment() {
 //            imgSubmissionMe.load(android.R.drawable.ic_menu_camera){
 //                placeholder(android.R.drawable.ic_menu_camera)
 //                build()
-
 
             SubmissionPgEmiratesTakePhotoButton.setOnClickListener{
                 showPictureTypeDialog()
@@ -117,6 +116,10 @@ class SubmissionFragment : Fragment() {
                     false
                 }
             }
+
+
+
+
         }
     }
 

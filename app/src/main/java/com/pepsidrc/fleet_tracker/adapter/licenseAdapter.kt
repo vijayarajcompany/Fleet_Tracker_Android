@@ -65,6 +65,26 @@ class LicenseAdapter(
         }
 
 
+        holder.binding.imglicenseSelection.setOnClickListener{
+//            onItemClick(license)
+            with(holder.binding){
+                license.selected = !license.selected
+                DistributionPgLicenseLabel.text = license.name
+
+                if(license.selected){
+                    imglicenseSelection.setImageResource(R.drawable.green_check_mark_transp)
+                    onItemClick(license)
+                    notifyDataSetChanged()
+                }
+                else
+                {
+                    imglicenseSelection.setImageResource(R.drawable.red_uncheck_mark_transp)
+                    onItemClick(license)
+                    notifyDataSetChanged()
+                }
+            }
+        }
+
 
 
     }
