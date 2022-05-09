@@ -1,14 +1,20 @@
 package com.pepsidrc.fleet_tracker.fragment
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.pepsidrc.fleet_tracker.R
@@ -59,6 +65,51 @@ class LoginFragment : Fragment() {
         val view = binding.root
         Setup_UI()
         return view
+    }
+
+    private fun showForgotPassword() {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater.inflate(R.layout.dialog_forgotpassword, null)
+        builder.setView(inflater)
+        builder.setCancelable(false)
+
+
+        val dialogImagecancelbtn = inflater.findViewById<Button>(R.id.fclose_button)
+        val dialogSubmitbtn = inflater.findViewById<Button>(R.id.Submit_button)
+        val dialogEmail = inflater.findViewById<EditText>(R.id.email)
+        val info_Error = inflater.findViewById<TextView>(R.id.forgotinfo_Error)
+
+        val dialog: AlertDialog = builder.create()
+        dialogImagecancelbtn?.setOnClickListener {
+            dialog.cancel()
+        }
+        dialog.show()
+
+        dialogSubmitbtn?.setOnClickListener {
+
+            dialogSubmitbtn.startAnimation(bounce)
+
+            if(dialogEmail.text.isNullOrEmpty()){
+                info_Error.text = "Email Address should not be empty"
+                info_Error.startAnimation(shake)
+                info_Error.setTextColor(Color.parseColor("#FF0000"));
+            }
+            else if (!isValidEmail(dialogEmail.text.toString())) {
+                info_Error.text = "Please enter a valid Email Address"
+                info_Error.startAnimation(shake)
+                info_Error.setTextColor(Color.parseColor("#FF0000"));
+            }
+            else {
+                info_Error.text = "Please enter your registered Email Address."
+                info_Error.setTextColor(Color.parseColor("#646567"))
+            }
+
+        }
+    }
+
+
+    fun isValidEmail(email: String): Boolean {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     //    Lifecycle 2nd call
@@ -249,6 +300,15 @@ class LoginFragment : Fragment() {
         bounce = AnimationUtils.loadAnimation(requireContext(), R.anim.bounce)
         shake = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
         regshake = AnimationUtils.loadAnimation(requireContext(), R.anim.regshake)
+
+
+        with(binding){
+            LgPgForgetPasswordLink.setOnClickListener{
+                binding.LgPgForgetPasswordLink.startAnimation(bounce)
+              showForgotPassword()
+            }
+        }
+
 
     }
 

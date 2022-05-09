@@ -16,9 +16,11 @@
         <entry key="app/src/main/res/drawable/signature.xml" value="0.5068359375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25341796875" />
+        <entry key="app/src/main/res/layout/dialog_ForgotPassword.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_bg.xml" value="0.25341796875" />
         <entry key="app/src/main/res/layout/dialog_calendar.xml" value="0.25341796875" />
         <entry key="app/src/main/res/layout/dialog_error.xml" value="0.20572916666666666" />
+        <entry key="app/src/main/res/layout/dialog_forgotpassword.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_picturetype_submission.xml" value="0.5" />
         <entry key="app/src/main/res/layout/dialog_progress_bar_large.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_review_distribution.xml" value="0.5" />
